@@ -19,11 +19,11 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body style="background-image: url('{{ asset('img/bg.jpg') }}')">
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow" style="opacity: 0.8">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand font-weight-bold" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -76,5 +76,16 @@
             @yield('content')
         </main>
     </div>
+
+    <script src="{{ asset("js/jquery-3.5.1.min.js") }}"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("form").submit(function () {
+                $(this).find("[type='submit']").attr('disabled','disabled');
+                $(this).find("[type='submit']").html(`<img src="{{ asset('img/loading.gif') }}" height="20px"> Loading...`);
+            });
+        });
+    </script>
 </body>
 </html>

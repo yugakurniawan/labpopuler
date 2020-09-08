@@ -28,7 +28,7 @@
 
 <body>
     <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
-        <div class="app-header header-shadow">
+        <div class="app-header header-shadow bg-grow-early header-text-light">
             @include('layouts.components.header')
         </div>
         @include('layouts.components.ui-theme-settings')
