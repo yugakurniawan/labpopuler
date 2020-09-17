@@ -22,22 +22,25 @@
     =========================================================
     * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
     -->
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link href="{{ asset('architectui-html-free/main.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
     @yield('styles')
 </head>
 
 <body>
+    @include('layouts.components.alert')
     <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
         <div class="app-header header-shadow bg-grow-early header-text-light">
             @include('layouts.components.header')
         </div>
-        @include('layouts.components.ui-theme-settings')
+        {{-- @include('layouts.components.ui-theme-settings') --}}
         <div class="app-main">
             <div class="app-sidebar sidebar-shadow">
                 @include('layouts.components.sidebar')
             </div>
             <div class="app-main__outer">
-                <div class="app-main__inner">
+                <div class="app-main__inner mb-3">
                     <div class="app-page-title">
                         <div class="page-title-wrapper">
                             <div class="page-title-heading">
@@ -55,6 +58,7 @@
         </div>
     </div>
     <script type="text/javascript" src="{{ asset('architectui-html-free/assets/scripts/main.js') }}"></script>
+    <script type="text/javascript" src="/js/script.js"></script>
     @stack('scripts')
 </body>
 

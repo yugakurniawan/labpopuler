@@ -20,8 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('username', 32);
             $table->string('email', 64)->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('avatar', 64)->default('noavatar.png');
+            $table->string('password')->default(bcrypt('password'));
+            $table->string('avatar', 64)->default('public/noavatar.png');
             $table->rememberToken();
             $table->timestamps();
         });
