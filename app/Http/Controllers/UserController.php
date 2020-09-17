@@ -6,6 +6,7 @@ use App\Peran;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -18,6 +19,20 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::latest()->paginate(15);
+
+        if ($request->cari) {
+            $users = User::where(function ($user) use ($request) {
+                $user->Where('nama','like',"%$request->cari%");
+                $user->orWhere('email','like',"%$request->cari%");
+                $user->orWhere('username','like',"%$request->cari%");
+                $user->orWherehas('peran', function ($peran) use ($request) {
+                    $peran->where('nama','like',"%$request->cari%");
+                });
+            })->latest()->paginate(15);
+        }
+
+        $users->appends(request()->input())->links();
+
         return view('user.index', compact('users'));
     }
 

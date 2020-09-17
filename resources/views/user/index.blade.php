@@ -13,6 +13,18 @@
 </div>
 @endsection
 
+@section('search')
+<div class="search-wrapper {{ request('cari') != '' ? 'active' : '' }}">
+    <div class="input-holder">
+        <form action="{{ URL::current() }}" method="GET">
+            <input name="cari" type="text" class="search-input" placeholder="Cari pengguna ..." value="{{ request('cari') }}">
+        </form>
+        <button class="search-icon"><span></span></button>
+    </div>
+    <button class="close"></button>
+</div>
+@endsection
+
 @section('content')
 <div class="row">
     @foreach ($users as $user)
