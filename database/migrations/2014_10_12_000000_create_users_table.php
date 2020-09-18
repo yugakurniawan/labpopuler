@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->foreignId('peran_id')->constrained('peran')->onDelete('cascade')->onUpdate('cascade');
             $table->string('nama', 128);
-            $table->string('username', 32);
+            $table->string('username', 64)->unique();
             $table->string('email', 64)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->default(bcrypt('password'));
