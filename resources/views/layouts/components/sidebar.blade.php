@@ -43,19 +43,21 @@
                     Dashboard
                 </a>
             </li>
-            <li class="app-sidebar__heading">Manajemen Pengguna</li>
-            <li>
-                <a href="/user" class="{{ Request::segment(1) == 'user' ? 'mm-active' : '' }}">
-                    <i class="metismenu-icon pe-7s-users"></i>
-                    Pengguna
-                </a>
-            </li>
-            <li>
-                <a href="/tambah-pengguna" class="{{ Request::segment(1) == 'tambah-pengguna' ? 'mm-active' : '' }}">
-                    <i class="metismenu-icon pe-7s-add-user"></i>
-                    Tambah Pengguna
-                </a>
-            </li>
+            @can('super_admin')
+                <li class="app-sidebar__heading">Manajemen Pengguna</li>
+                <li>
+                    <a href="/user" class="{{ Request::segment(1) == 'user' ? 'mm-active' : '' }}">
+                        <i class="metismenu-icon pe-7s-users"></i>
+                        Pengguna
+                    </a>
+                </li>
+                <li>
+                    <a href="/tambah-pengguna" class="{{ Request::segment(1) == 'tambah-pengguna' ? 'mm-active' : '' }}">
+                        <i class="metismenu-icon pe-7s-add-user"></i>
+                        Tambah Pengguna
+                    </a>
+                </li>
+            @endcan
         </ul>
     </div>
 </div>

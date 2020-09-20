@@ -9,4 +9,5 @@ class Dokter extends Model
     protected $table = 'tb_dokter';
     public $timestamps = false;
     protected $primaryKey = 'kode';
+    protected $guarded = [];
 }

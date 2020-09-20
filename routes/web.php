@@ -23,12 +23,15 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::get('/', 'HomeController@index')->name('home');
 
-    Route::get('/tambah-pengguna', 'UserController@create')->name('user.create');
-    Route::resource('user', 'UserController')->except('show','create');
-
     Route::get('/profil', 'UserController@show')->name('user.show');
     Route::patch('/profil', 'UserController@updateProfil')->name('update-profil');
 
     Route::get('/ganti-password', 'UserController@gantiPassword')->name('ganti-password');
     Route::patch('/ganti-password', 'UserController@updatePassword')->name('update-password');
+
+    Route::group(['middleware' => ['can:super_admin']], function () {
+        Route::get('/tambah-pengguna', 'UserController@create')->name('user.create');
+        Route::resource('user', 'UserController')->except('show','create');
+    });
+
 });
