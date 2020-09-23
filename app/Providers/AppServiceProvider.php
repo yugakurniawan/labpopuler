@@ -34,11 +34,11 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Gate::define('pengurus_lab', function($user){
-            return $user->peran->nama == 'pengurus_lab';
+            return $user->peran->nama == 'Pengurus Lab';
         });
 
         Gate::define('marketing', function($user){
-            return $user->peran->nama == 'marketing';
+            return $user->peran->nama == 'Marketing';
         });
     }
 }

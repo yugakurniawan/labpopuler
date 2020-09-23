@@ -38,7 +38,7 @@
         <ul class="vertical-nav-menu">
             <li class="app-sidebar__heading">Dashboards</li>
             <li>
-                <a href="/" class="{{ Request::segment(1) == '' ? 'mm-active' : '' }}">
+                <a href="{{ url('/') }}" class="{{ Request::segment(1) == '' ? 'mm-active' : '' }}">
                     <i class="metismenu-icon pe-7s-rocket"></i>
                     Dashboard
                 </a>
@@ -46,15 +46,30 @@
             @can('super_admin')
                 <li class="app-sidebar__heading">Manajemen Pengguna</li>
                 <li>
-                    <a href="/user" class="{{ Request::segment(1) == 'user' ? 'mm-active' : '' }}">
+                    <a href="{{ route('user.index') }}" class="{{ Request::segment(1) == 'user' ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-users"></i>
                         Pengguna
                     </a>
                 </li>
                 <li>
-                    <a href="/tambah-pengguna" class="{{ Request::segment(1) == 'tambah-pengguna' ? 'mm-active' : '' }}">
+                    <a href="{{ route('user.create')}}" class="{{ Request::segment(1) == 'tambah-pengguna' ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-add-user"></i>
                         Tambah Pengguna
+                    </a>
+                </li>
+            @endcan
+            @can('pengurus_lab')
+                <li class="app-sidebar__heading">Manajemen Pasien</li>
+                <li>
+                    <a href="{{ route('pasien.index')}}" class="{{ Request::segment(1) == 'pasien' ? 'mm-active' : '' }}">
+                        <i class="metismenu-icon pe-7s-users"></i>
+                        Pasien
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('pasien.create') }}" class="{{ Request::segment(1) == 'tambah-pasien' ? 'mm-active' : '' }}">
+                        <i class="metismenu-icon pe-7s-add-user"></i>
+                        Tambah Pasien
                     </a>
                 </li>
             @endcan
