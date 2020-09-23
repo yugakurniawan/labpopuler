@@ -45,7 +45,7 @@
                             <td>{{ $item->noreg }}</td>
                             <td>{{ $item->title->nama }} {{ $item->nama }}</td>
                             <td>{{ date('d/m/Y',strtotime($item->tgl_tran)) }}</td>
-                            <td>{{ $item->tmp_lahir ? $item->tmp_lahir . ", " : "" }} {{ $item->tgl_lahir }}</td>
+                            <td>{{ $item->tmp_lahir ? $item->tmp_lahir . ", " : "" }} {{ date('d/m/Y',strtotime($item->tgl_lhr)) }}</td>
                             <td>{{ $item->alamat }}</td>
                         </tr>
                     @endforeach
