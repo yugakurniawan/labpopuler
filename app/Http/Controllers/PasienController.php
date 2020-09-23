@@ -45,10 +45,10 @@ class PasienController extends Controller
     {
         return view('pasien.create', [
             'agama'     => Agama::all(),
-            'Kota'      => Kota::all(),
-            'Pekerjaan' => Pekerjaan::all(),
-            'Pendidikan'=> Pendidikan::all(),
-            'Title'     => Title::all()
+            'kota'      => Kota::all(),
+            'pekerjaan' => Pekerjaan::all(),
+            'pendidikan'=> Pendidikan::all(),
+            'title'     => Title::all()
         ]);
     }
 
