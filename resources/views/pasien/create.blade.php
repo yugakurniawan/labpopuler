@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'Tambah Pengguna - ' . config('app.name'))
+@section('title', 'Tambah Pasien - ' . config('app.name'))
 
 @section('styles')
 <style>
@@ -15,9 +15,9 @@
 <div class="page-title-icon">
     <i class="pe-7s-add-user icon-gradient bg-mean-fruit"></i>
 </div>
-<div>Tambah Pengguna
+<div>Tambah Pasien
     <div class="page-title-subheading">
-        Ini adalah halaman untuk menambah pengguna pada {{ config('app.name') }}
+        Ini adalah halaman untuk menambah pasien pada {{ config('app.name') }}
     </div>
 </div>
 @endsection
