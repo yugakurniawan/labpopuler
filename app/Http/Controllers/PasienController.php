@@ -43,7 +43,7 @@ class PasienController extends Controller
      */
     public function create()
     {
-        return view('user.create', [
+        return view('pasien.create', [
             'agama'     => Agama::all(),
             'Kota'      => Kota::all(),
             'Pekerjaan' => Pekerjaan::all(),
