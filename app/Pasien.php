@@ -7,9 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Pasien extends Model
 {
     protected $table = 'tb_pasien';
+    public $incrementing = false;
+    protected $keyType = 'string';
     public $timestamps = false;
     protected $primaryKey = 'noreg';
     protected $guarded = [];
+    const UPDATED_AT = 'userupdate';
 
     public function title()
     {
@@ -44,5 +47,10 @@ class Pasien extends Model
     public function pendidikan()
     {
         return $this->belongsTo('App\Pendidikan', 'pendidikan');
+    }
+
+    public function bagian()
+    {
+        return $this->belongsTo('App\Bagian', 'bagian');
     }
 }

@@ -77,8 +77,8 @@
         </main>
     </div>
 
-    <script src="{{ asset("js/jquery-3.5.1.min.js") }}"></script>
 
+    <script src="{{ asset("js/jquery-3.5.1.min.js") }}"></script>
     <script>
         $(document).ready(function () {
             $("form").submit(function () {
@@ -89,3 +89,4 @@
     </script>
 </body>
 </html>
+

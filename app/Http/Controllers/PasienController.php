@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Agama;
+use App\Bagian;
+use App\Darah;
+use App\Http\Requests\PasienRequest;
 use App\Kota;
+use App\Negara;
 use App\Pasien;
 use App\Pekerjaan;
 use App\Pendidikan;
 use App\Title;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class PasienController extends Controller
 {
@@ -45,10 +50,13 @@ class PasienController extends Controller
     {
         return view('pasien.create', [
             'agama'     => Agama::all(),
+            'negara'    => Negara::all(),
             'kota'      => Kota::all(),
             'pekerjaan' => Pekerjaan::all(),
             'pendidikan'=> Pendidikan::all(),
-            'title'     => Title::all()
+            'title'     => Title::all(),
+            'darah'     => Darah::all(),
+            'bagian'    => Bagian::all(),
         ]);
     }
 
@@ -58,9 +66,19 @@ class PasienController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PasienRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        if ($request->fhoto) {
+            $data['fhoto']  = $request->fhoto->store('pasien');
+        }
+
+        $data['tgl_tran'] = date('Y-m-d');
+        $data['userupdate'] = now();
+
+        Pasien::create($data);
+        return redirect()->route('pasien.index')->with('success', 'Pasien berhasil ditambahkan');
     }
 
     /**
@@ -71,13 +89,15 @@ class PasienController extends Controller
      */
     public function show(Pasien $pasien)
     {
-        return view('user.create', [
+        return view('pasien.show', [
             'agama'     => Agama::all(),
-            'Kota'      => Kota::all(),
-            'Pekerjaan' => Pekerjaan::all(),
-            'Pendidikan'=> Pendidikan::all(),
-            'Title'     => Title::all(),
-            'pasien'     => $pasien
+            'kota'      => Kota::all(),
+            'pekerjaan' => Pekerjaan::all(),
+            'pendidikan'=> Pendidikan::all(),
+            'title'     => Title::all(),
+            'darah'     => Darah::all(),
+            'bagian'    => Bagian::all(),
+            'pasien'    => $pasien,
         ]);
     }
 
@@ -89,13 +109,16 @@ class PasienController extends Controller
      */
     public function edit(Pasien $pasien)
     {
-        return view('user.create', [
+        return view('pasien.edit', [
             'agama'     => Agama::all(),
-            'Kota'      => Kota::all(),
-            'Pekerjaan' => Pekerjaan::all(),
-            'Pendidikan'=> Pendidikan::all(),
-            'Title'     => Title::all(),
-            'pasien'     => $pasien
+            'negara'    => Negara::all(),
+            'kota'      => Kota::all(),
+            'pekerjaan' => Pekerjaan::all(),
+            'pendidikan'=> Pendidikan::all(),
+            'title'     => Title::all(),
+            'darah'     => Darah::all(),
+            'bagian'    => Bagian::all(),
+            'pasien'    => $pasien,
         ]);
     }
 
@@ -106,9 +129,21 @@ class PasienController extends Controller
      * @param  \App\Pasien  $pasien
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Pasien $pasien)
+    public function update(PasienRequest $request, Pasien $pasien)
     {
-        //
+        $data = $request->validated();
+
+        if ($request->fhoto) {
+            if ($pasien->fhoto) {
+                File::delete(storage_path('app/'. $pasien->fhoto));
+            }
+            $data['fhoto']  = $request->fhoto->store('pasien');
+        }
+
+        $data['userupdate'] = now();
+
+        $pasien->update($data);
+        return redirect()->back()->with('success', 'Pasien berhasil diperbarui');
     }
 
     /**
@@ -119,6 +154,9 @@ class PasienController extends Controller
      */
     public function destroy(Pasien $pasien)
     {
-        //
+        if ($pasien->fhoto) {
+            File::delete(storage_path('app/'. $pasien->fhoto));
+        }
+        $pasien->delete();
     }
 }

@@ -23,7 +23,7 @@
 @endsection
 
 @section('page-title-actions')
-<a href="/user" type="button" class="btn-shadow mr-3 btn btn-dark">
+<a href="{{ route('user.index') }}" type="button" class="btn-shadow mr-3 btn btn-dark">
     <i class="fas fa-arrow-left"></i> Kembali
 </a>
 @endsection

@@ -32,6 +32,7 @@
             <table class="table table-bordered table-striped table-hover">
                 <thead>
                     <tr>
+                        <th width="100px">Opsi</th>
                         <th>Noreg</th>
                         <th>Nama</th>
                         <th>Tgl Tran</th>
@@ -42,6 +43,13 @@
                 <tbody>
                     @foreach ($pasien as $item)
                         <tr>
+                            <td>
+                                <a href="{{ route('pasien.edit', $item) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
+                                <a href="#hapus" class="btn btn-sm btn-danger hapus" data-nama="{{ $item->nama }}" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash hapus-data"></i></a>
+                                <form action="{{ route("pasien.destroy", $item) }}" method="post">
+                                    @csrf @method('delete')
+                                </form>
+                            </td>
                             <td>{{ $item->noreg }}</td>
                             <td>{{ $item->title->nama }} {{ $item->nama }}</td>
                             <td>{{ date('d/m/Y',strtotime($item->tgl_tran)) }}</td>
@@ -62,8 +70,15 @@
     document.addEventListener('click', function (event) {
         if (event.target.classList.contains('hapus')) {
             event.preventDefault();
-            if (confirm('Apakah anda yakin ingin menghapus pengguna ' + event.target.dataset.nama + ' ini ?')) {
+            if (confirm('Apakah anda yakin ingin menghapus pasien ' + event.target.dataset.nama + ' ini ?')) {
                 event.target.nextSibling.nextElementSibling.submit();
+            }
+        }
+
+        if (event.target.classList.contains('hapus-data')) {
+            event.preventDefault();
+            if (confirm('Apakah anda yakin ingin menghapus pasien ' + event.target.parentElement.dataset.nama + ' ini ?')) {
+                event.target.parentElement.nextSibling.nextElementSibling.submit();
             }
         }
     });

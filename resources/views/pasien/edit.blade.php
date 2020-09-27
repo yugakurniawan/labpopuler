@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'Tambah Pasien - ' . config('app.name'))
+@section('title', 'Edit Pasien - ' . config('app.name'))
 
 @section('styles')
 <style>
@@ -15,23 +15,29 @@
 <div class="page-title-icon">
     <i class="pe-7s-add-user icon-gradient bg-mean-fruit"></i>
 </div>
-<div>Tambah Pasien
+<div>Edit Pasien
     <div class="page-title-subheading">
-        Ini adalah halaman untuk menambah pasien pada {{ config('app.name') }}
+        Ini adalah halaman untuk mengubah pasien pada {{ config('app.name') }}
     </div>
 </div>
 @endsection
 
+@section('page-title-actions')
+<a href="{{ route('pasien.index') }}" type="button" class="btn-shadow mr-3 btn btn-dark">
+    <i class="fas fa-arrow-left"></i> Kembali
+</a>
+@endsection
+
 @section('content')
-<form autocomplete="off" action="{{ route('pasien.store') }}" method="post" enctype="multipart/form-data">
-    @csrf
+<form autocomplete="off" action="{{ route('pasien.update', $pasien) }}" method="post" enctype="multipart/form-data">
+    @csrf @method('patch')
     <div class="row">
         <div class="col-md-3 mb-3">
             <div class="card shadow">
                 <div class="card-body">
                     <div class="form-group text-center">
                         <label for="fhoto">Foto Profil</label> <br>
-                        <img title="Klik untuk ganti foto profil" data-toggle="tooltip" id="display-fhoto" width="100" class="rounded-circle mb-3" src="/storage/noavatar.png" alt="Foto Profil">
+                        <img title="Klik untuk ganti foto profil" data-toggle="tooltip" id="display-fhoto" width="100" class="rounded-circle mb-3" src="{{ $pasien->fhoto != null && $pasien->fhoto != $pasien->noreg . '.jpg' ? url(Storage::url($pasien->fhoto)) : '/storage/noavatar.png'}}" alt="Foto Profil">
                         <input type="file" name="fhoto" id="fhoto" accept="image/*" style="display: none">
                         @error('fhoto') <span class="invalid-feedback">{{ $message }}</span> @enderror
                     </div>
@@ -44,7 +50,7 @@
                     <div class="row">
                         <div class="form-group col-md-4">
                             <label for="noreg">Nomor Registrasi</label>
-                            <input type="text" name="noreg" id="noreg" class="form-control @error('noreg') is-invalid @enderror" placeholder="Masukkan Nomor Registrasi ..." value="{{ old('noreg') }}">
+                            <input type="text" name="noreg" id="noreg" class="form-control @error('noreg') is-invalid @enderror" placeholder="Masukkan Nomor Registrasi ..." value="{{ old('noreg', $pasien->noreg) }}">
                             @error('noreg') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-2">
@@ -52,33 +58,33 @@
                             <select name="title_id" id="title_id" class="form-control @error('title_id') is-invalid @enderror">
                                 <option value="" disabled selected>Pilih Title</option>
                                 @foreach ($title as $item)
-                                    <option value="{{ ($item->kode) }}" {{ old('title_id') == $item->kode ? 'selected':'' }} >{{ $item->nama }}</option>
+                                    <option value="{{ ($item->kode) }}" {{ old('title_id', $pasien->title_id) == $item->kode ? 'selected':'' }} >{{ $item->nama }}</option>
                                 @endforeach
                             </select>
                             @error('title_id') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-6">
                             <label for="nama">Nama</label>
-                            <input type="text" name="nama" id="nama" class="form-control @error('nama') is-invalid @enderror" placeholder="Masukkan Nama ..." value="{{ old('nama') }}">
+                            <input type="text" name="nama" id="nama" class="form-control @error('nama') is-invalid @enderror" placeholder="Masukkan Nama ..." value="{{ old('nama', $pasien->nama) }}">
                             @error('nama') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="kelamin">Kelamin</label>
                             <select name="kelamin" id="kelamin" class="form-control @error('kelamin') is-invalid @enderror">
                                 <option value="" disabled selected>Pilih Kelamin</option>
-                                <option value="Laki - laki" {{ old('kelamin') == "Laki - laki" ? 'selected':'' }} >Laki - laki</option>
-                                <option value="Wanita" {{ old('kelamin') == 'Wanita' ? 'selected':'' }} >Wanita</option>
+                                <option value="Laki - laki" {{ old('kelamin', $pasien->kelamin) == "Laki - laki" ? 'selected':'' }} >Laki - laki</option>
+                                <option value="Wanita" {{ old('kelamin', $pasien->kelamin) == 'Wanita' ? 'selected':'' }} >Wanita</option>
                             </select>
                             @error('kelamin') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="tmp_lahir">Tempat Lahir</label>
-                            <input type="text" name="tmp_lahir" id="tmp_lahir" class="form-control @error('tmp_lahir') is-invalid @enderror" placeholder="Masukkan Tempat Lahir ..." value="{{ old('tmp_lahir') }}">
+                            <input type="text" name="tmp_lahir" id="tmp_lahir" class="form-control @error('tmp_lahir') is-invalid @enderror" placeholder="Masukkan Tempat Lahir ..." value="{{ old('tmp_lahir', $pasien->tmp_lahir) }}">
                             @error('tmp_lahir') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="tgl_lhr">Tanggal Lahir</label>
-                            <input type="date" name="tgl_lhr" id="tgl_lhr" class="form-control @error('tgl_lhr') is-invalid @enderror" placeholder="Masukkan Tanggal Lahir ..." value="{{ old('tgl_lhr') }}">
+                            <input type="date" name="tgl_lhr" id="tgl_lhr" class="form-control @error('tgl_lhr') is-invalid @enderror" placeholder="Masukkan Tanggal Lahir ..." value="{{ old('tgl_lhr', $pasien->tgl_lhr) }}">
                             @error('tgl_lhr') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
@@ -86,7 +92,7 @@
                             <select name="negara" id="negara" class="form-control @error('negara') is-invalid @enderror">
                                 <option value="" disabled selected>Pilih Negara</option>
                                 @foreach ($negara as $item)
-                                    <option value="{{ ($item->kode) }}" {{ old('negara') == $item->kode ? 'selected':'' }} >{{ $item->nama }}</option>
+                                    <option value="{{ ($item->kode) }}" {{ old('negara', $pasien->negara) == $item->kode ? 'selected':'' }} >{{ $item->nama }}</option>
                                 @endforeach
                             </select>
                             @error('negara') <span class="invalid-feedback">{{ $message }}</span> @enderror
@@ -96,19 +102,19 @@
                             <select name="kota" id="kota" class="form-control @error('kota') is-invalid @enderror">
                                 <option value="" disabled selected>Pilih Kota</option>
                                 @foreach ($kota as $item)
-                                    <option value="{{ ($item->kode) }}" {{ old('kota') == $item->kode ? 'selected':'' }} >{{ $item->kota }}</option>
+                                    <option value="{{ ($item->kode) }}" {{ old('kota', $pasien->kota) == $item->kode ? 'selected':'' }} >{{ $item->kota }}</option>
                                 @endforeach
                             </select>
                             @error('kota') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="kelurahan">Kelurahan</label>
-                            <input type="text" name="kelurahan" id="kelurahan" class="form-control @error('kelurahan') is-invalid @enderror" placeholder="Masukkan Alamat ..." value="{{ old('kelurahan') }}">
+                            <input type="text" name="kelurahan" id="kelurahan" class="form-control @error('kelurahan') is-invalid @enderror" placeholder="Masukkan Alamat ..." value="{{ old('kelurahan', $pasien->kelurahan) }}">
                             @error('kelurahan') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-12">
                             <label for="alamat">Alamat</label>
-                            <input type="text" name="alamat" id="alamat" class="form-control @error('alamat') is-invalid @enderror" placeholder="Masukkan Alamat ..." value="{{ old('alamat') }}">
+                            <input type="text" name="alamat" id="alamat" class="form-control @error('alamat') is-invalid @enderror" placeholder="Masukkan Alamat ..." value="{{ old('alamat', $pasien->alamat) }}">
                             @error('alamat') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
@@ -116,7 +122,7 @@
                             <select name="agama" id="agama" class="form-control @error('agama') is-invalid @enderror">
                                 <option value="" disabled selected>Pilih Agama</option>
                                 @foreach ($agama as $item)
-                                    <option value="{{ ($item->kode) }}" {{ old('agama') == $item->kode ? 'selected':'' }} >{{ $item->nama }}</option>
+                                    <option value="{{ ($item->kode) }}" {{ old('agama', $pasien->agama) == $item->kode ? 'selected':'' }} >{{ $item->nama }}</option>
                                 @endforeach
                             </select>
                             @error('agama') <span class="invalid-feedback">{{ $message }}</span> @enderror
@@ -126,24 +132,24 @@
                             <select name="darah" id="darah" class="form-control @error('darah') is-invalid @enderror">
                                 <option value="" disabled selected>Pilih Golongan Darah</option>
                                 @foreach ($darah as $item)
-                                    <option value="{{ ($item->kode) }}" {{ old('darah') == $item->kode ? 'selected':'' }} >{{ $item->nama }}</option>
+                                    <option value="{{ ($item->kode) }}" {{ old('darah', $pasien->darah) == $item->kode ? 'selected':'' }} >{{ $item->nama }}</option>
                                 @endforeach
                             </select>
                             @error('darah') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="ibu">Nama Ibu</label>
-                            <input type="text" name="ibu" id="ibu" class="form-control @error('ibu') is-invalid @enderror" placeholder="Masukkan Nama Ibu ..." value="{{ old('ibu') }}">
+                            <input type="text" name="ibu" id="ibu" class="form-control @error('ibu') is-invalid @enderror" placeholder="Masukkan Nama Ibu ..." value="{{ old('ibu', $pasien->ibu) }}">
                             @error('ibu') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="tlp">Nomor Telepon</label>
-                            <input type="text" onkeypress="return hanyaAngka(event);" name="tlp" id="tlp" class="form-control @error('tlp') is-invalid @enderror" placeholder="Masukkan Nomor Telepon ..." value="{{ old('tlp') }}">
+                            <input type="text" onkeypress="return hanyaAngka(event);" name="tlp" id="tlp" class="form-control @error('tlp') is-invalid @enderror" placeholder="Masukkan Nomor Telepon ..." value="{{ old('tlp', $pasien->tlp) }}">
                             @error('tlp') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="hp">Nomor Hp</label>
-                            <input type="text" onkeypress="return hanyaAngka(event);" name="hp" id="hp" class="form-control @error('hp') is-invalid @enderror" placeholder="Masukkan Nomor Hp ..." value="{{ old('hp') }}">
+                            <input type="text" onkeypress="return hanyaAngka(event);" name="hp" id="hp" class="form-control @error('hp') is-invalid @enderror" placeholder="Masukkan Nomor Hp ..." value="{{ old('hp', $pasien->hp) }}">
                             @error('hp') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
@@ -151,14 +157,14 @@
                             <select name="pendidikan" id="pendidikan" class="form-control @error('pendidikan') is-invalid @enderror">
                                 <option value="" disabled selected>Pilih Pendidikan</option>
                                 @foreach ($pendidikan as $item)
-                                    <option value="{{ ($item->kode) }}" {{ old('pendidikan') == $item->kode ? 'selected':'' }} >{{ $item->nama }}</option>
+                                    <option value="{{ ($item->kode) }}" {{ old('pendidikan', $pasien->pendidikan) == $item->kode ? 'selected':'' }} >{{ $item->nama }}</option>
                                 @endforeach
                             </select>
                             @error('pendidikan') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="perusahaan">Perusahaan</label>
-                            <input type="text" name="perusahaan" id="perusahaan" class="form-control @error('perusahaan') is-invalid @enderror" placeholder="Masukkan Perusahaan ..." value="{{ old('perusahaan') }}">
+                            <input type="text" name="perusahaan" id="perusahaan" class="form-control @error('perusahaan') is-invalid @enderror" placeholder="Masukkan Perusahaan ..." value="{{ old('perusahaan', $pasien->perusahaan) }}">
                             @error('perusahaan') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
@@ -166,19 +172,19 @@
                             <select name="pekerjaan" id="pekerjaan" class="form-control @error('pekerjaan') is-invalid @enderror">
                                 <option value="" disabled selected>Pilih Pekerjaan</option>
                                 @foreach ($pekerjaan as $item)
-                                    <option value="{{ ($item->kode) }}" {{ old('pekerjaan') == $item->kode ? 'selected':'' }} >{{ $item->nama }}</option>
+                                    <option value="{{ ($item->kode) }}" {{ old('pekerjaan', $pasien->pekerjaan) == $item->kode ? 'selected':'' }} >{{ $item->nama }}</option>
                                 @endforeach
                             </select>
                             @error('pekerjaan') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="pin">Pin</label>
-                            <input type="text" name="pin" id="pin" class="form-control @error('pin') is-invalid @enderror" placeholder="Masukkan Pin ..." value="{{ old('pin') }}">
+                            <input type="text" name="pin" id="pin" class="form-control @error('pin') is-invalid @enderror" placeholder="Masukkan Pin ..." value="{{ old('pin', $pasien->pin) }}">
                             @error('pin') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="npk">NPK</label>
-                            <input type="text" name="npk" id="npk" class="form-control @error('npk') is-invalid @enderror" placeholder="Masukkan NPK ..." value="{{ old('npk') }}">
+                            <input type="text" name="npk" id="npk" class="form-control @error('npk') is-invalid @enderror" placeholder="Masukkan NPK ..." value="{{ old('npk', $pasien->npk) }}">
                             @error('npk') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
@@ -186,74 +192,74 @@
                             <select name="bagian" id="bagian" class="form-control @error('bagian') is-invalid @enderror">
                                 <option value="" selected>Pilih Bagian</option>
                                 @foreach ($bagian as $item)
-                                    <option value="{{ ($item->kode) }}" {{ old('bagian') == $item->kode ? 'selected':'' }} >{{ $item->nama }}</option>
+                                    <option value="{{ ($item->kode) }}" {{ old('bagian', $pasien->bagian) == $item->kode ? 'selected':'' }} >{{ $item->nama }}</option>
                                 @endforeach
                             </select>
                             @error('bagian') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="no_jamsostek">Nomor Jamsostek</label>
-                            <input type="text" onkeypress="return hanyaAngka(event);" name="no_jamsostek" id="no_jamsostek" class="form-control @error('no_jamsostek') is-invalid @enderror" placeholder="Masukkan Nomor Jamsostek ..." value="{{ old('no_jamsostek') }}">
+                            <input type="text" onkeypress="return hanyaAngka(event);" name="no_jamsostek" id="no_jamsostek" class="form-control @error('no_jamsostek') is-invalid @enderror" placeholder="Masukkan Nomor Jamsostek ..." value="{{ old('no_jamsostek', $pasien->no_jamsostek) }}">
                             @error('no_jamsostek') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="jabatan">Jabatan</label>
-                            <input type="text" name="jabatan" id="jabatan" class="form-control @error('jabatan') is-invalid @enderror" placeholder="Masukkan Jabatan ..." value="{{ old('jabatan') }}">
+                            <input type="text" name="jabatan" id="jabatan" class="form-control @error('jabatan') is-invalid @enderror" placeholder="Masukkan Jabatan ..." value="{{ old('jabatan', $pasien->jabatan) }}">
                             @error('jabatan') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="dept">Dept</label>
-                            <input type="text" name="dept" id="dept" class="form-control @error('dept') is-invalid @enderror" placeholder="Masukkan Dept ..." value="{{ old('dept') }}">
+                            <input type="text" name="dept" id="dept" class="form-control @error('dept') is-invalid @enderror" placeholder="Masukkan Dept ..." value="{{ old('dept', $pasien->dept) }}">
                             @error('dept') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="no_askes">Nomor Askes</label>
-                            <input type="text" name="no_askes" id="no_askes" class="form-control @error('no_askes') is-invalid @enderror" placeholder="Masukkan Nomor Askes ..." value="{{ old('no_askes') }}">
+                            <input type="text" name="no_askes" id="no_askes" class="form-control @error('no_askes') is-invalid @enderror" placeholder="Masukkan Nomor Askes ..." value="{{ old('no_askes', $pasien->no_askes) }}">
                             @error('no_askes') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="pangkat">Pangkat</label>
-                            <input type="text" name="pangkat" id="pangkat" class="form-control @error('pangkat') is-invalid @enderror" placeholder="Masukkan Pangkat ..." value="{{ old('pangkat') }}">
+                            <input type="text" name="pangkat" id="pangkat" class="form-control @error('pangkat') is-invalid @enderror" placeholder="Masukkan Pangkat ..." value="{{ old('pangkat', $pasien->pangkat) }}">
                             @error('pangkat') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="kesatuan">Kesatuan</label>
-                            <input type="text" name="kesatuan" id="kesatuan" class="form-control @error('kesatuan') is-invalid @enderror" placeholder="Masukkan Kesatuan ..." value="{{ old('kesatuan') }}">
+                            <input type="text" name="kesatuan" id="kesatuan" class="form-control @error('kesatuan') is-invalid @enderror" placeholder="Masukkan Kesatuan ..." value="{{ old('kesatuan', $pasien->kesatuan) }}">
                             @error('kesatuan') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="masakerja">Masa Kerja</label>
-                            <input type="text" name="masakerja" id="masakerja" class="form-control @error('masakerja') is-invalid @enderror" placeholder="Masukkan Masa Kerja ..." value="{{ old('masakerja') }}">
+                            <input type="text" name="masakerja" id="masakerja" class="form-control @error('masakerja') is-invalid @enderror" placeholder="Masukkan Masa Kerja ..." value="{{ old('masakerja', $pasien->masakerja) }}">
                             @error('masakerja') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="nrp">NRP</label>
-                            <input type="text" name="nrp" id="nrp" class="form-control @error('nrp') is-invalid @enderror" placeholder="Masukkan NRP ..." value="{{ old('nrp') }}">
+                            <input type="text" name="nrp" id="nrp" class="form-control @error('nrp') is-invalid @enderror" placeholder="Masukkan NRP ..." value="{{ old('nrp', $pasien->nrp) }}">
                             @error('nrp') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="paket">Paket</label>
-                            <input type="text" name="paket" id="paket" class="form-control @error('paket') is-invalid @enderror" placeholder="Masukkan Paket ..." value="{{ old('paket') }}">
+                            <input type="text" name="paket" id="paket" class="form-control @error('paket') is-invalid @enderror" placeholder="Masukkan Paket ..." value="{{ old('paket', $pasien->paket) }}">
                             @error('paket') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="keydata">Keydata</label>
-                            <input type="text" name="keydata" id="keydata" class="form-control @error('keydata') is-invalid @enderror" placeholder="Masukkan Keydata ..." value="{{ old('keydata') }}">
+                            <input type="text" name="keydata" id="keydata" class="form-control @error('keydata') is-invalid @enderror" placeholder="Masukkan Keydata ..." value="{{ old('keydata', $pasien->keydata) }}">
                             @error('keydata') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="reg_old">Reg Old</label>
-                            <input type="text" name="reg_old" id="reg_old" class="form-control @error('reg_old') is-invalid @enderror" placeholder="Masukkan Reg Old ..." value="{{ old('reg_old') }}">
+                            <input type="text" name="reg_old" id="reg_old" class="form-control @error('reg_old') is-invalid @enderror" placeholder="Masukkan Reg Old ..." value="{{ old('reg_old', $pasien->reg_old) }}">
                             @error('reg_old') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="lokasi">Lokasi</label>
-                            <input type="text" name="lokasi" id="lokasi" class="form-control @error('lokasi') is-invalid @enderror" placeholder="Masukkan Lokasi ..." value="{{ old('lokasi') }}">
+                            <input type="text" name="lokasi" id="lokasi" class="form-control @error('lokasi') is-invalid @enderror" placeholder="Masukkan Lokasi ..." value="{{ old('lokasi', $pasien->lokasi) }}">
                             @error('lokasi') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="no_rm">Nomor RM</label>
-                            <input type="text" name="no_rm" id="no_rm" class="form-control @error('no_rm') is-invalid @enderror" placeholder="Masukkan Nomor RM ..." value="{{ old('no_rm') }}">
+                            <input type="text" name="no_rm" id="no_rm" class="form-control @error('no_rm') is-invalid @enderror" placeholder="Masukkan Nomor RM ..." value="{{ old('no_rm', $pasien->no_rm) }}">
                             @error('no_rm') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
                     </div>
