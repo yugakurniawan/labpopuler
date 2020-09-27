@@ -28,7 +28,7 @@ class PasienController extends Controller
                 $user->orWhere('kelamin','like',"%$request->cari%");
                 $user->orWhere('tmp_lahir','like',"%$request->cari%");
                 $user->orWhere('alamat','like',"%$request->cari%");
-            })->latest()->paginate(15);
+            })->orderBy('noreg','desc')->paginate(15);
         }
 
         $pasien->appends(request()->input())->links();
