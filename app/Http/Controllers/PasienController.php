@@ -158,5 +158,6 @@ class PasienController extends Controller
             File::delete(storage_path('app/'. $pasien->fhoto));
         }
         $pasien->delete();
+        return redirect()->back()->with('success', 'Pasien berhasil dihapus');
     }
 }
