@@ -143,7 +143,7 @@ class PasienController extends Controller
         $data['userupdate'] = now();
 
         $pasien->update($data);
-        return redirect()->back()->with('success', 'Pasien berhasil diperbarui');
+        return redirect()->route('pasien.edit', $pasien)->with('success', 'Pasien berhasil diperbarui');
     }
 
     /**
