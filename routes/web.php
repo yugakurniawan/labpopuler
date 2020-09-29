@@ -41,6 +41,8 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::group(['middleware' => ['can:dokter']], function () {
         Route::get('/pasien-saya', 'PasienController@dokter')->name('pasien.dokter');
+        Route::get('diagnosa/{pasien}', 'DiagnosaController@create')->name('diagnosa.create');
+        Route::resource('diagnosa', 'DiagnosaController')->except('create','show');
     });
 
     Route::group(['middleware' => ['can:dokter-lab']], function () {

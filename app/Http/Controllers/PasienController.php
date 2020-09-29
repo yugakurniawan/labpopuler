@@ -113,6 +113,7 @@ class PasienController extends Controller
             'title'     => Title::all(),
             'darah'     => Darah::all(),
             'bagian'    => Bagian::all(),
+            'diagnosa'  => PasienDokter::where('noreg',$pasien->noreg)->get(),
             'pasien'    => $pasien,
         ]);
     }
