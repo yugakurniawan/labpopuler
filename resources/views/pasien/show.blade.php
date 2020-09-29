@@ -14,9 +14,16 @@
 @endsection
 
 @section('page-title-actions')
-<a href="{{ route('pasien.index') }}" type="button" class="btn-shadow mr-3 mb-3 btn btn-dark">
-    <i class="fas fa-arrow-left"></i> Kembali
-</a>
+@can('dokter')
+    <a href="{{ route('pasien.dokter') }}" type="button" class="btn-shadow mr-3 mb-3 btn btn-dark">
+        <i class="fas fa-arrow-left"></i> Kembali
+    </a>
+@endcan
+@can('pengurus_lab')
+    <a href="{{ route('pasien.index') }}" type="button" class="btn-shadow mr-3 mb-3 btn btn-dark">
+        <i class="fas fa-arrow-left"></i> Kembali
+    </a>
+@endcan
 <a href="{{ route('diagnosa.create', $pasien) }}" class="btn btn-success mb-3"><i class="fas fa-plus"></i> Diagnosa</a>
 @endsection
 
