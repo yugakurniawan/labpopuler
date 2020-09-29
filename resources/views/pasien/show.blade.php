@@ -136,7 +136,7 @@
                                                 @csrf @method('delete')
                                             </form>
                                         </td>
-                                        <td>{{ $item->noreg }}</td>
+                                        <td>{{ $item->nolab }}</td>
                                         <td>{{ date('d/m/Y' ,strtotime($item->tgl_tran)) }}</td>
                                     </tr>
                                 @empty
