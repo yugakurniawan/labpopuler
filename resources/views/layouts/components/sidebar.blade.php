@@ -73,6 +73,15 @@
                     </a>
                 </li>
             @endcan
+            @can('dokter')
+                <li class="app-sidebar__heading">Pasien Saya</li>
+                <li>
+                    <a href="{{ route('pasien.dokter')}}" class="{{ Request::segment(1) == 'pasien-saya' ? 'mm-active' : '' }}">
+                        <i class="metismenu-icon pe-7s-users"></i>
+                        Pasien Saya
+                    </a>
+                </li>
+            @endcan
         </ul>
     </div>
 </div>

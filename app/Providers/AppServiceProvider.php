@@ -37,6 +37,12 @@ class AppServiceProvider extends ServiceProvider
             return $user->peran->nama == 'Pengurus Lab';
         });
 
+        Gate::define('dokter-lab', function($user){
+            if ($user->peran->nama == 'Pengurus Lab' || $user->peran->nama == 'Dokter') {
+                return true;
+            }
+        });
+
         Gate::define('marketing', function($user){
             return $user->peran->nama == 'Marketing';
         });

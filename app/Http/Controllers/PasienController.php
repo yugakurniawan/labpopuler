@@ -9,6 +9,7 @@ use App\Http\Requests\PasienRequest;
 use App\Kota;
 use App\Negara;
 use App\Pasien;
+use App\PasienDokter;
 use App\Pekerjaan;
 use App\Pendidikan;
 use App\Title;
@@ -39,6 +40,20 @@ class PasienController extends Controller
         $pasien->appends(request()->input())->links();
 
         return view('pasien.index', compact('pasien'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dokter(Request $request)
+    {
+        $pasien = PasienDokter::where('kodedokter',auth()->user()->dokter->kode)->orderBy('noreg','desc')->paginate(15);
+
+        $pasien->appends(request()->input())->links();
+
+        return view('pasien.dokter', compact('pasien'));
     }
 
     /**
@@ -91,6 +106,7 @@ class PasienController extends Controller
     {
         return view('pasien.show', [
             'agama'     => Agama::all(),
+            'negara'    => Negara::all(),
             'kota'      => Kota::all(),
             'pekerjaan' => Pekerjaan::all(),
             'pendidikan'=> Pendidikan::all(),

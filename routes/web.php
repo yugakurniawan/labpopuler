@@ -36,8 +36,15 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::group(['middleware' => ['can:pengurus_lab']], function () {
         Route::get('/tambah-pasien', 'PasienController@create')->name('pasien.create');
-        Route::get('/pasien/{pasien}', 'PasienController@show')->name('pasien.show');
         Route::resource('pasien', 'PasienController')->except('create','show');
+    });
+
+    Route::group(['middleware' => ['can:dokter']], function () {
+        Route::get('/pasien-saya', 'PasienController@dokter')->name('pasien.dokter');
+    });
+
+    Route::group(['middleware' => ['can:dokter-lab']], function () {
+        Route::get('/pasien/{pasien}', 'PasienController@show')->name('pasien.show');
     });
 
 });
