@@ -51,9 +51,14 @@ class PasienController extends Controller
     {
         $pasien = PasienDokter::where('kodedokter',auth()->user()->dokter->kode)->orderBy('noreg','desc')->paginate(15);
 
+        if ($request->cari) {
+            $pasien = PasienDokter::where('kodedokter',auth()->user()->dokter->kode)->where('noreg',$request->cari)->orderBy('noreg','desc')->paginate(15);
+        }
+
+        $total = PasienDokter::where('kodedokter',auth()->user()->dokter->kode)->orderBy('noreg','desc')->get()->groupBy('noreg')->count();
         $pasien->appends(request()->input())->links();
 
-        return view('pasien.dokter', compact('pasien'));
+        return view('pasien.dokter', compact('pasien','total'));
     }
 
     /**
@@ -113,7 +118,6 @@ class PasienController extends Controller
             'title'     => Title::all(),
             'darah'     => Darah::all(),
             'bagian'    => Bagian::all(),
-            'diagnosa'  => PasienDokter::where('noreg',$pasien->noreg)->get(),
             'pasien'    => $pasien,
         ]);
     }

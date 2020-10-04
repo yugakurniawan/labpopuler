@@ -124,10 +124,12 @@
                                     <th width="85px">#</th>
                                     <th>Nomor Lab</th>
                                     <th>Tanggal Diagnosa</th>
+                                    <th>Saran</th>
+                                    <th>Kesimpulan</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($diagnosa as $item)
+                                @forelse ($pasien->pasienDokter as $item)
                                     <tr>
                                         <td>
                                             <a href="{{ route('diagnosa.edit', $item) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
@@ -138,6 +140,8 @@
                                         </td>
                                         <td>{{ $item->nolab }}</td>
                                         <td>{{ date('d/m/Y' ,strtotime($item->tgl_tran)) }}</td>
+                                        <td>{!! $item->pasienSaran ? nl2br($item->pasienSaran->saran) : '-' !!}</td>
+                                        <td>{!! $item->pasienSaran ? nl2br($item->pasienSaran->kesimpulan) : '-' !!}</td>
                                     </tr>
                                 @empty
                                     <tr>

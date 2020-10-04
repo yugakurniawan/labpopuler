@@ -10,6 +10,6 @@ class PasienSaran extends Model
     public $incrementing = false;
     protected $keyType = 'string';
     public $timestamps = false;
-    protected $primaryKey = 'noreg';
+    protected $primaryKey = 'nolab';
     protected $guarded = [];
 }

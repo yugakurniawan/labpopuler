@@ -53,4 +53,9 @@ class Pasien extends Model
     {
         return $this->belongsTo('App\Bagian', 'bagian');
     }
+
+    public function pasienDokter()
+    {
+        return $this->hasMany('App\PasienDokter','noreg');
+    }
 }

@@ -8,7 +8,7 @@
 </div>
 <div>Pasien Saya
     <div class="page-title-subheading">
-        Ini adalah halaman untuk mengelola Pasien Saya yang ada pada {{ config('app.name') }}
+        Ini adalah halaman untuk mengelola Pasien Saya yang ada pada {{ config('app.name') }} dengan jumlah {{ $total }} Pasien
     </div>
 </div>
 @endsection
@@ -41,7 +41,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($pasien as $item)
+                    @foreach ($pasien as $key => $item)
+                        @php
+                            if ($key > 0) {
+                                if ($item->noreg == $pasien[$key - 1]->noreg) {
+                                    continue;
+                                }
+                            }
+                        @endphp
                         <tr>
                             <td>
                                 <a href="{{ route('pasien.show', $item) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Detail Pasien"><i class="fas fa-eye"></i></a>
