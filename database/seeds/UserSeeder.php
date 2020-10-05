@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'peran_id'          => 3,
+            'peran_id'          => 4,
             'nama'              => 'Admin Marketing',
             'username'          => 'adminmarketing',
             'email'             => 'adminmarketing@gmail.com',
