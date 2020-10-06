@@ -15,7 +15,11 @@ class JadwalKunjunganController extends Controller
      */
     public function index()
     {
-        $jadwal_kunjungan = JadwalKunjungan::where('user_id', auth()->user()->id)->paginate(10);
+        if (auth()->user()->peran->nama == "Dokter") {
+            $jadwal_kunjungan = JadwalKunjungan::where('dokter_id', auth()->user()->dokter->kode)->paginate(10);
+        } else {
+            $jadwal_kunjungan = JadwalKunjungan::where('user_id', auth()->user()->id)->paginate(10);
+        }
         return view('jadwal-kunjungan.index',compact('jadwal_kunjungan'));
     }
 
@@ -87,9 +91,10 @@ class JadwalKunjunganController extends Controller
     {
         $data = $request->validate([
             'dokter_id' => ['required'],
-            'jadwal'    => ['required','date','after:now']
+            'jadwal'    => ['required','date'],
+            'status'    => ['nullable']
         ],[
-            'dokter_id.required'    => 'dokter wajib diisi'
+            'dokter_id.required'    => 'dokter wajib diisi',
         ]);
 
         $jadwal_kunjungan->update($data);

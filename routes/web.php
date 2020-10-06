@@ -51,10 +51,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::group(['middleware' => ['can:marketing']], function () {
         Route::get('/tambah-jadwal-kunjungan', 'JadwalKunjunganController@create')->name('jadwal-kunjungan.create');
-        Route::resource('jadwal-kunjungan', 'JadwalKunjunganController')->except('update','show','create');
+        Route::resource('jadwal-kunjungan', 'JadwalKunjunganController')->except('update','show','create','index');
     });
 
     Route::group(['middleware' => ['can:dokter-marketing']], function () {
+        Route::get('/jadwal-kunjungan', 'JadwalKunjunganController@index')->name('jadwal-kunjungan.index');
         Route::get('/jadwal-kunjungan/{jadwal_kunjungan}', 'JadwalKunjunganController@show')->name('jadwal-kunjungan.show');
         Route::patch('/jadwal-kunjungan/{jadwal_kunjungan}', 'JadwalKunjunganController@update')->name('jadwal-kunjungan.update');
     });

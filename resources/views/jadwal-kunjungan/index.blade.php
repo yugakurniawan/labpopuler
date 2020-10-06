@@ -42,7 +42,11 @@
                     @foreach ($jadwal_kunjungan as $item)
                         <tr>
                             <td>
-                                <a href="{{ route('jadwal-kunjungan.edit', $item) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
+                                @can('marketing')
+                                    <a href="{{ route('jadwal-kunjungan.edit', $item) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
+                                @elsecan('dokter')
+                                    <a href="{{ route('jadwal-kunjungan.show', $item) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
+                                @endcan
                                 <a href="#hapus" class="btn btn-sm btn-danger hapus" data-nama="{{ date('d/m/Y H:i:s',strtotime($item->jadwal)) }}" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash hapus-data"></i></a>
                                 <form action="{{ route("jadwal-kunjungan.destroy", $item) }}" method="post">
                                     @csrf @method('delete')

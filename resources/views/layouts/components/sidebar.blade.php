@@ -81,6 +81,13 @@
                         Pasien Saya
                     </a>
                 </li>
+                <li class="app-sidebar__heading">Jadwal Kunjungan</li>
+                <li>
+                    <a href="{{ route('jadwal-kunjungan.index')}}" class="{{ Request::segment(1) == 'jadwal-kunjungan-saya' ? 'mm-active' : '' }}">
+                        <i class="metismenu-icon pe-7s-date"></i>
+                        Jadwal Kunjungan
+                    </a>
+                </li>
             @endcan
             @can('marketing')
                 <li class="app-sidebar__heading">Jadwal Kunjungan</li>
@@ -90,7 +97,6 @@
                         Jadwal Kunjungan
                     </a>
                 </li>
-
                 <li>
                     <a href="{{ route('jadwal-kunjungan.create') }}" class="{{ Request::segment(1) == 'tambah-jadwal-kunjungan' ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-date"></i>

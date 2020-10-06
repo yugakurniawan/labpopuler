@@ -34,13 +34,23 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="dokter_id">Dokter</label>
-                        <input class="form-control" type="text" value="{{ $jadwal_kunjungan->dokter->nama }} - {{ $jadwal_kunjungan->dokter->kode }}">
+                        <select readonly class="form-control" name="dokter_id" id="dokter_id">
+                            <option value="{{ $jadwal_kunjungan->dokter->kode }}">{{ $jadwal_kunjungan->dokter->nama }} - {{ $jadwal_kunjungan->dokter->kode }}</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="jadwal">Jadwal</label>
-                        <input type="datetime-local" name="jadwal" id="jadwal" class="form-control @error('jadwal') is-invalid @enderror" placeholder="Masukkan Jadwal ..." value="{{ date('Y-m-d\TH:i', strtotime(old('jadwal', $jadwal_kunjungan->jadwal)))  }}">
+                        <input readonly type="datetime-local" name="jadwal" id="jadwal" class="form-control @error('jadwal') is-invalid @enderror" placeholder="Masukkan Jadwal ..." value="{{ date('Y-m-d\TH:i', strtotime(old('jadwal', $jadwal_kunjungan->jadwal)))  }}">
                     </div>
                     @can('dokter')
+                        <div class="form-group">
+                            <label for="status">Verifikasi</label>
+                            <select name="status" id="status" class="form-control @error('status') is-invalid @enderror" placeholder="Masukkan Jadwal ...">
+                                <option value="">Verifikasi</option>
+                                <option value="1" {{ $jadwal_kunjungan->status == 1 ?'selected' :'' }}>Setujui</option>
+                                <option value="2" {{ $jadwal_kunjungan->status == 2 ?'selected' :'' }}>Tidak Setujui</option>
+                            </select>
+                        </div>
                         <div class="form-group text-right">
                             <button type="submit" class="btn btn-success">Simpan</button>
                         </div>
