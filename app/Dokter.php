@@ -12,4 +12,9 @@ class Dokter extends Model
     public $timestamps = false;
     protected $primaryKey = 'kode';
     protected $guarded = [];
+
+    public function jadwalKunjungan()
+    {
+        return $this->hasMany('App\JadwalKunjungan','dokter_id');
+    }
 }
