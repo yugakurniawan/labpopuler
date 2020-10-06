@@ -19,7 +19,7 @@
 
 @section('content')
 <form autocomplete="off" action="{{ route('jadwal-kunjungan.update', $jadwal_kunjungan) }}" method="post" enctype="multipart/form-data">
-    @csrf
+    @csrf @method('patch')
     <div class="row">
         <div class="col-md-6">
             <div class="card shadow">
