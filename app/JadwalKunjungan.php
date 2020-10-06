@@ -11,6 +11,6 @@ class JadwalKunjungan extends Model
 
     public function dokter()
     {
-        return $this->hasMany('App\Dokter');
+        return $this->belongsTo('App\Dokter','dokter_id');
     }
 }
