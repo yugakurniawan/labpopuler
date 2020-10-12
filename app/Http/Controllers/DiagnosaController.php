@@ -3,20 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Pasien;
+use App\PasienDokter;
+use App\PasienSaran;
 use Illuminate\Http\Request;
 
 class DiagnosaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -24,7 +16,7 @@ class DiagnosaController extends Controller
      */
     public function create(Pasien $pasien)
     {
-        //
+        return view('diagnosa.create', compact('pasien'));
     }
 
     /**
@@ -35,7 +27,26 @@ class DiagnosaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'nolab'         => ['required','numeric'],
+            'saran'         => ['nullable'],
+            'kesimpulan'    => ['nullable']
+        ],[
+            'nolab.required' => 'Nomor Lab wajib diisi',
+            'nolab.numeric' => 'Nomor Lab harus berupa angka',
+        ]);
+
+        $data['tgl_tran'] = date('Y-m-d');
+        $pasien = Pasien::find($request->noreg);
+        PasienSaran::create($data);
+        PasienDokter::create([
+            'noreg'     => $request->noreg,
+            'tgl_tran'  => date('Y-m-d'),
+            'kodedokter'=> auth()->user()->dokter->kode,
+            'nolab'     => $request->nolab,
+            'nama'      => $pasien->nama
+        ]);
+        return redirect()->route('pasien.show',$request->noreg)->with('success', 'Diagnosa berhasil ditambahkan');
     }
 
     /**
@@ -55,9 +66,9 @@ class DiagnosaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(PasienSaran $diagnosa)
     {
-        //
+        return view('diagnosa.edit', compact('diagnosa'));
     }
 
     /**
@@ -67,9 +78,10 @@ class DiagnosaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, PasienSaran $diagnosa)
     {
-        //
+        $diagnosa->update($request->all());
+        return redirect()->back()->with('success', 'Diagnosa berhasil diperbarui');
     }
 
     /**
@@ -78,8 +90,10 @@ class DiagnosaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(PasienSaran $diagnosa)
     {
-        //
+        $diagnosa->delete();
+        PasienDokter::where('nolab', $diagnosa->nolab)->delete();
+        return redirect()->back()->with('success', 'Diagnosa berhasil dihapus');
     }
 }

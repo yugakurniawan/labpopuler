@@ -12,4 +12,9 @@ class PasienSaran extends Model
     public $timestamps = false;
     protected $primaryKey = 'nolab';
     protected $guarded = [];
+
+    public function pasienDokter()
+    {
+        return $this->hasOne('App\PasienDokter','nolab');
+    }
 }

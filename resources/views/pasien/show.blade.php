@@ -29,7 +29,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-2 mb-3">
+        <div class="col-lg-2 mb-3">
             <div class="card shadow">
                 <div class="card-body">
                     <div class="form-group text-center">
@@ -41,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-5 mb-3">
+        <div class="col-lg-5 mb-3">
             <div class="card shadow">
                 <div class="card-body">
                     <div class="table-responsive">
@@ -76,7 +76,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-5 mb-3">
+        <div class="col-lg-5 mb-3">
             <div class="card shadow">
                 <div class="card-body">
                     <div class="table-responsive">
@@ -132,9 +132,9 @@
                                 @forelse ($pasien->pasienDokter as $item)
                                     <tr>
                                         <td>
-                                            <a href="{{ route('diagnosa.edit', $item) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
-                                            <a href="#hapus" class="btn btn-sm btn-danger hapus" data-nama="{{ $item->nama }}" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash hapus-data"></i></a>
-                                            <form action="{{ route("diagnosa.destroy", $item) }}" method="post">
+                                            <a href="{{ route('diagnosa.edit', $item->nolab) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
+                                            <a href="#hapus" class="btn btn-sm btn-danger hapus" data-nama="Diagnosa" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash hapus-data"></i></a>
+                                            <form action="{{ route("diagnosa.destroy", $item->nolab) }}" method="post">
                                                 @csrf @method('delete')
                                             </form>
                                         </td>
@@ -156,3 +156,23 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('hapus')) {
+            event.preventDefault();
+            if (confirm('Apakah anda yakin ingin menghapus pasien ' + event.target.dataset.nama + ' ini ?')) {
+                event.target.nextSibling.nextElementSibling.submit();
+            }
+        }
+
+        if (event.target.classList.contains('hapus-data')) {
+            event.preventDefault();
+            if (confirm('Apakah anda yakin ingin menghapus pasien ' + event.target.parentElement.dataset.nama + ' ini ?')) {
+                event.target.parentElement.nextSibling.nextElementSibling.submit();
+            }
+        }
+    });
+</script>
+@endpush
