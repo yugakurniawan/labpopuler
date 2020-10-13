@@ -28,9 +28,9 @@ class DiagnosaController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'nolab'         => ['required','numeric'],
-            'saran'         => ['nullable'],
-            'kesimpulan'    => ['nullable']
+            'nolab'         => ['required','numeric','unique:tb_passaran,nolab'],
+            'saran'         => ['required'],
+            'kesimpulan'    => ['required']
         ],[
             'nolab.required' => 'Nomor Lab wajib diisi',
             'nolab.numeric' => 'Nomor Lab harus berupa angka',
@@ -66,8 +66,20 @@ class DiagnosaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(PasienSaran $diagnosa)
+    public function edit($id)
     {
+        $diagnosa = PasienSaran::find($id);
+        if ($diagnosa == null) {
+            $diagnosa = (object)[
+                'nolab' => $id,
+                'saran' => null,
+                'kesimpulan' => null,
+                'pasienDokter' => (object) [
+                    'noreg' => PasienDokter::where('nolab',$id)->first()->noreg
+                ],
+                'tambah' => true
+            ];
+        }
         return view('diagnosa.edit', compact('diagnosa'));
     }
 
@@ -78,9 +90,19 @@ class DiagnosaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PasienSaran $diagnosa)
+    public function update(Request $request, $id)
     {
-        $diagnosa->update($request->all());
+        if ($request->tambah == 1) {
+            $data = $request->validate([
+                'nolab'         => ['required','numeric'],
+                'saran'         => ['required'],
+                'kesimpulan'    => ['required']
+            ]);
+            $data['tgl_tran'] = date('Y-m-d');
+            PasienSaran::create($data);
+        } else {
+            PasienSaran::find($id)->update($request->all());
+        }
         return redirect()->back()->with('success', 'Diagnosa berhasil diperbarui');
     }
 

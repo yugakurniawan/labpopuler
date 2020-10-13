@@ -20,8 +20,12 @@
 @endsection
 
 @section('content')
-<form autocomplete="off" action="{{ route('diagnosa.update', $diagnosa) }}" method="post" enctype="multipart/form-data">
+<form autocomplete="off" action="{{ route('diagnosa.update', $diagnosa->nolab) }}" method="post" enctype="multipart/form-data">
     @csrf @method('patch')
+    <input type="hidden" name="nolab" value="{{ $diagnosa->nolab }}">
+    @if ($diagnosa->tambah)
+        <input type="hidden" name="tambah" value="1">
+    @endif
     <div class="card shadow">
         <div class="card-body">
             <div class="form-group">

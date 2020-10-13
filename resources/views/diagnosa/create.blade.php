@@ -1,12 +1,12 @@
 @extends('layouts.base')
 
-@section('title', 'Edit Diagnosa - ' . config('app.name'))
+@section('title', 'Tambah Diagnosa - ' . config('app.name'))
 
 @section('page-title-heading')
 <div class="page-title-icon">
     <i class="pe-7s-add-user icon-gradient bg-mean-fruit"></i>
 </div>
-<div>Edit Diagnosa
+<div>Tambah Diagnosa
     <div class="page-title-subheading">
         Ini adalah halaman untuk mengubah diagnosa pada {{ config('app.name') }}
     </div>
@@ -27,7 +27,7 @@
         <div class="card-body">
             <div class="form-group">
                 <label for="nolab">Nomor Lab</label>
-                <input type="number" onkeypress="return hanyaAngka(event);" name="nolab" id="nolab" class="form-control @error('nolab') is-invalid @enderror" placeholder="Masukkan Nomor Lab ...">{{ old('nolab') }}</textarea>
+                <input type="number" onkeypress="return hanyaAngka(event);" name="nolab" id="nolab" class="form-control @error('nolab') is-invalid @enderror" placeholder="Masukkan Nomor Lab ..." value="{{ old('nolab') }}">
                 @error('nolab') <span class="invalid-feedback">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
