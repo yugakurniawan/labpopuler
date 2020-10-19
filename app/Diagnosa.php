@@ -15,6 +15,6 @@ class Diagnosa extends Model
 
     public function pasienDokter()
     {
-        return $this->belongsTo('App\PasienDokter','nolab');
+        return $this->hasOne('App\PasienDokter','nolab');
     }
 }
