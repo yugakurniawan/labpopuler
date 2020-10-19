@@ -56,7 +56,11 @@
                                     @csrf @method('delete')
                                 </form>
                             </td>
-                            <td>{{ $item->dokter->nama }} - {{ $item->dokter->kode }}</td>
+                            @can('marketing')
+                                <td>{{ $item->dokter->nama }} - {{ $item->dokter->kode }}</td>
+                            @elsecan('dokter')
+                                <td>{{ $item->user->nama }}</td>
+                            @endcan
                             <td>{{ date('d/m/Y H:i:s',strtotime($item->jadwal)) }}</td>
                             <td>
                                 @php

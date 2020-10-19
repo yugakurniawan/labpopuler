@@ -13,4 +13,9 @@ class JadwalKunjungan extends Model
     {
         return $this->belongsTo('App\Dokter','dokter_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }
