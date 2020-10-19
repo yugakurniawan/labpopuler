@@ -1,14 +1,14 @@
 @extends('layouts.base')
 
-@section('title', 'Manajemen Jadwal Kunjungan - ' . config('app.name'))
+@section('title', 'Manajemen Jadwal Kunjungan Marketing - ' . config('app.name'))
 
 @section('page-title-heading')
 <div class="page-title-icon">
     <i class="pe-7s-users icon-gradient bg-mean-fruit"></i>
 </div>
-<div>Manajemen Jadwal Kunjungan
+<div>Manajemen Jadwal Kunjungan Marketing
     <div class="page-title-subheading">
-        Ini adalah halaman untuk mengelola Jadwal Kunjungan yang ada pada {{ config('app.name') }}
+        Ini adalah halaman untuk mengelola Jadwal Kunjungan Marketing yang ada pada {{ config('app.name') }}
     </div>
 </div>
 @endsection
@@ -33,7 +33,11 @@
                 <thead>
                     <tr>
                         <th width="100px">Opsi</th>
-                        <th>Dokter</th>
+                        @can('dokter')
+                            <th>Marketing</th>
+                        @elsecan('marketing')
+                            <th>Dokter</th>
+                        @endcan
                         <th>Jadwal</th>
                         <th>Status</th>
                     </tr>

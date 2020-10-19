@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'Edit Jadwal Kunjungan - ' . config('app.name'))
+@section('title', 'Edit Jadwal Kunjungan Marketing - ' . config('app.name'))
 
 @section('styles')
 <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" />
@@ -10,7 +10,7 @@
 <div class="page-title-icon">
     <i class="pe-7s-add-user icon-gradient bg-mean-fruit"></i>
 </div>
-<div>Edit Jadwal Kunjungan
+<div>Edit Jadwal Kunjungan Marketing
     <div class="page-title-subheading">
         Ini adalah halaman untuk mengubah jadwal kunjungan pada {{ config('app.name') }}
     </div>

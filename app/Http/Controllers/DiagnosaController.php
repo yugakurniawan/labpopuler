@@ -2,85 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\Pasien;
 use App\PasienDokter;
-use App\PasienSaran;
+use App\Diagnosa;
 use Illuminate\Http\Request;
 
 class DiagnosaController extends Controller
 {
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Pasien $pasien)
-    {
-        return view('diagnosa.create', compact('pasien'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'nolab'         => ['required','numeric','unique:tb_passaran,nolab'],
-            'saran'         => ['required'],
-            'kesimpulan'    => ['required']
-        ],[
-            'nolab.required' => 'Nomor Lab wajib diisi',
-            'nolab.numeric' => 'Nomor Lab harus berupa angka',
-        ]);
-
-        $data['tgl_tran'] = date('Y-m-d');
-        $pasien = Pasien::find($request->noreg);
-        PasienSaran::create($data);
-        PasienDokter::create([
-            'noreg'     => $request->noreg,
-            'tgl_tran'  => date('Y-m-d'),
-            'kodedokter'=> auth()->user()->dokter->kode,
-            'nolab'     => $request->nolab,
-            'nama'      => $pasien->nama
-        ]);
-        return redirect()->route('pasien.show',$request->noreg)->with('success', 'Diagnosa berhasil ditambahkan');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function show($id)
     {
-        $diagnosa = PasienSaran::find($id);
+        $diagnosa = Diagnosa::find($id);
         if ($diagnosa == null) {
             $diagnosa = (object)[
                 'nolab' => $id,
-                'saran' => null,
-                'kesimpulan' => null,
+                'diagnosa' => null,
                 'pasienDokter' => (object) [
                     'noreg' => PasienDokter::where('nolab',$id)->first()->noreg
                 ],
                 'tambah' => true
             ];
         }
-        return view('diagnosa.edit', compact('diagnosa'));
+        return view('diagnosa.show', compact('diagnosa'));
     }
 
     /**
@@ -92,17 +39,17 @@ class DiagnosaController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $data = $request->validate([
+            'nolab'         => ['required','numeric'],
+            'diagnosa'      => ['required'],
+        ]);
+
         if ($request->tambah == 1) {
-            $data = $request->validate([
-                'nolab'         => ['required','numeric'],
-                'saran'         => ['required'],
-                'kesimpulan'    => ['required']
-            ]);
-            $data['tgl_tran'] = date('Y-m-d');
-            PasienSaran::create($data);
+            Diagnosa::create($data);
         } else {
-            PasienSaran::find($id)->update($request->all());
+            Diagnosa::find($id)->update(['diagnosa' => $request->diagnosa]);
         }
+
         return redirect()->back()->with('success', 'Diagnosa berhasil diperbarui');
     }
 
@@ -112,7 +59,7 @@ class DiagnosaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PasienSaran $diagnosa)
+    public function destroy(Diagnosa $diagnosa)
     {
         $diagnosa->delete();
         PasienDokter::where('nolab', $diagnosa->nolab)->delete();

@@ -1,14 +1,14 @@
 @extends('layouts.base')
 
-@section('title', 'Edit Diagnosa - ' . config('app.name'))
+@section('title', 'Detail Hasil Lab - ' . config('app.name'))
 
 @section('page-title-heading')
 <div class="page-title-icon">
     <i class="pe-7s-add-user icon-gradient bg-mean-fruit"></i>
 </div>
-<div>Edit Diagnosa
+<div>Detail Hasil Lab
     <div class="page-title-subheading">
-        Ini adalah halaman untuk mengubah diagnosa pada {{ config('app.name') }}
+        Ini adalah halaman untuk melihat detail hasil lab pada {{ config('app.name') }}
     </div>
 </div>
 @endsection
@@ -29,14 +29,9 @@
     <div class="card shadow">
         <div class="card-body">
             <div class="form-group">
-                <label for="saran">Saran</label>
-                <textarea rows="5" name="saran" id="saran" class="form-control @error('saran') is-invalid @enderror" placeholder="Masukkan Jadwal ...">{{ old('saran', $diagnosa->saran) }}</textarea>
-                @error('saran') <span class="invalid-feedback">{{ $message }}</span> @enderror
-            </div>
-            <div class="form-group">
-                <label for="kesimpulan">Kesimpulan</label>
-                <textarea rows="5" name="kesimpulan" id="kesimpulan" class="form-control @error('kesimpulan') is-invalid @enderror" placeholder="Masukkan Jadwal ...">{{ old('kesimpulan', $diagnosa->kesimpulan) }}</textarea>
-                @error('kesimpulan') <span class="invalid-feedback">{{ $message }}</span> @enderror
+                <label for="diagnosa">Diagnosa</label>
+                <textarea rows="5" name="diagnosa" id="diagnosa" class="form-control @error('diagnosa') is-invalid @enderror" placeholder="Masukkan Diagnosa ...">{{ old('diagnosa', $diagnosa->diagnosa) }}</textarea>
+                @error('diagnosa') <span class="invalid-feedback">{{ $message }}</span> @enderror
             </div>
             <div class="form-group text-right">
                 <button type="submit" class="btn btn-success">Simpan</button>

@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'Detail Jadwal Kunjungan - ' . config('app.name'))
+@section('title', 'Detail Jadwal Kunjungan Marketing - ' . config('app.name'))
 
 @section('styles')
 <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" />
@@ -10,7 +10,7 @@
 <div class="page-title-icon">
     <i class="pe-7s-add-user icon-gradient bg-mean-fruit"></i>
 </div>
-<div>Detail Jadwal Kunjungan
+<div>Detail Jadwal Kunjungan Marketing
     <div class="page-title-subheading">
         Ini adalah halaman untuk melihat jadwal kunjungan pada {{ config('app.name') }}
     </div>
