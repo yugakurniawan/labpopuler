@@ -32,6 +32,12 @@
         <div class="col-md-6">
             <div class="card shadow">
                 <div class="card-body">
+                    @can('manager_marketing')
+                        <div class="form-group">
+                            <label for="marketing">Marketing</label>
+                            <input readonly type="text" name="marketing" id="marketing" class="form-control" value="{{ $jadwal_kunjungan->user->nama }}">
+                        </div>
+                    @endcan
                     <div class="form-group">
                         <label for="dokter_id">Dokter</label>
                         <select readonly class="form-control" name="dokter_id" id="dokter_id">
@@ -53,6 +59,15 @@
                         </div>
                         <div class="form-group text-right">
                             <button type="submit" class="btn btn-success">Simpan</button>
+                        </div>
+                    @elsecan('manager_marketing')
+                        <div class="form-group">
+                            <label for="status">Verifikasi</label>
+                            <select disabled name="status" id="status" class="form-control @error('status') is-invalid @enderror" placeholder="Masukkan Jadwal ...">
+                                <option value="">Belum Disetujui</option>
+                                <option value="1" {{ $jadwal_kunjungan->status == 1 ?'selected' :'' }}>Setujui</option>
+                                <option value="2" {{ $jadwal_kunjungan->status == 2 ?'selected' :'' }}>Tidak Setujui</option>
+                            </select>
                         </div>
                     @endcan
                 </div>

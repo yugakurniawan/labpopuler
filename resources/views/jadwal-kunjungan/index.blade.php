@@ -38,28 +38,42 @@
                         @elsecan('marketing')
                             <th>Dokter</th>
                         @endcan
+                        @can('manager_marketing')
+                            <th>Marketing</th>
+                            <th>Dokter</th>
+                        @endcan
                         <th>Jadwal</th>
                         <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($jadwal_kunjungan as $item)
+                    @forelse ($jadwal_kunjungan as $item)
                         <tr>
                             <td>
                                 @can('marketing')
                                     <a href="{{ route('jadwal-kunjungan.edit', $item) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
-                                @elsecan('dokter')
+                                @endcan
+                                @can('dokter')
                                     <a href="{{ route('jadwal-kunjungan.show', $item) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
                                 @endcan
-                                <a href="#hapus" class="btn btn-sm btn-danger hapus" data-nama="{{ date('d/m/Y H:i:s',strtotime($item->jadwal)) }}" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash hapus-data"></i></a>
-                                <form action="{{ route("jadwal-kunjungan.destroy", $item) }}" method="post">
-                                    @csrf @method('delete')
-                                </form>
+                                @can('manager_marketing')
+                                    <a href="{{ route('jadwal-kunjungan.show', $item) }}" class="btn btn-sm btn-info" data-toggle="tooltip" title="Detail"><i class="fas fa-eye"></i></a>
+                                @endcan
+                                @can('dokter-marketing')
+                                    <a href="#hapus" class="btn btn-sm btn-danger hapus" data-nama="{{ date('d/m/Y H:i:s',strtotime($item->jadwal)) }}" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash hapus-data"></i></a>
+                                    <form action="{{ route("jadwal-kunjungan.destroy", $item) }}" method="post">
+                                        @csrf @method('delete')
+                                    </form>
+                                @endcan
                             </td>
                             @can('marketing')
                                 <td>{{ $item->dokter->nama }} - {{ $item->dokter->kode }}</td>
                             @elsecan('dokter')
                                 <td>{{ $item->user->nama }}</td>
+                            @endcan
+                            @can('manager_marketing')
+                                <td>{{ $item->user->nama }}</td>
+                                <td>{{ $item->dokter->nama }} - {{ $item->dokter->kode }}</td>
                             @endcan
                             <td>{{ date('d/m/Y H:i:s',strtotime($item->jadwal)) }}</td>
                             <td>
@@ -78,7 +92,9 @@
                                 @endphp
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr><td align="center" colspan="4">Data tidak tersedia</td></tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

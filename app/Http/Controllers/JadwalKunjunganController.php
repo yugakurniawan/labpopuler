@@ -15,10 +15,18 @@ class JadwalKunjunganController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->peran->nama == "Dokter") {
-            $jadwal_kunjungan = JadwalKunjungan::where('dokter_id', auth()->user()->dokter->kode)->paginate(10);
-        } else {
-            $jadwal_kunjungan = JadwalKunjungan::where('user_id', auth()->user()->id)->paginate(10);
+        switch (auth()->user()->peran->nama) {
+            case 'Dokter':
+                $jadwal_kunjungan = JadwalKunjungan::where('dokter_id', auth()->user()->dokter->kode)->latest()->paginate(10);
+                break;
+
+            case 'Marketing':
+                $jadwal_kunjungan = JadwalKunjungan::where('user_id', auth()->user()->id)->latest()->paginate(10);
+                break;
+
+            default:
+                $jadwal_kunjungan = JadwalKunjungan::latest()->paginate(10);
+                break;
         }
         return view('jadwal-kunjungan.index',compact('jadwal_kunjungan'));
     }

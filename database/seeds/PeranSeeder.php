@@ -27,5 +27,9 @@ class PeranSeeder extends Seeder
         Peran::create([
             'nama'  => 'Marketing'
         ]);
+
+        Peran::create([
+            'nama'  => 'Manager Marketing'
+        ]);
     }
 }

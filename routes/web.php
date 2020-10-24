@@ -54,9 +54,12 @@ Route::group(['middleware' => ['web','auth']], function () {
     });
 
     Route::group(['middleware' => ['can:dokter-marketing']], function () {
+        Route::patch('/jadwal-kunjungan/{jadwal_kunjungan}', 'JadwalKunjunganController@update')->name('jadwal-kunjungan.update');
+    });
+
+    Route::group(['middleware' => ['can:dokter-marketing-manager_marketing']], function () {
         Route::get('/jadwal-kunjungan', 'JadwalKunjunganController@index')->name('jadwal-kunjungan.index');
         Route::get('/jadwal-kunjungan/{jadwal_kunjungan}', 'JadwalKunjunganController@show')->name('jadwal-kunjungan.show');
-        Route::patch('/jadwal-kunjungan/{jadwal_kunjungan}', 'JadwalKunjunganController@update')->name('jadwal-kunjungan.update');
     });
 
 });
