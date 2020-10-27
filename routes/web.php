@@ -57,6 +57,12 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::patch('/jadwal-kunjungan/{jadwal_kunjungan}', 'JadwalKunjunganController@update')->name('jadwal-kunjungan.update');
     });
 
+    Route::group(['middleware' => ['can:manager_marketing']], function () {
+        Route::get('/kuisioner', 'KuisionerController@index')->name('kuisioner.index');
+        Route::post('/kuisioner', 'KuisionerController@store')->name('kuisioner.store');
+        Route::get('/pengaturan-kuisioner', 'KuisionerController@edit')->name('kuisioner.edit');
+    });
+
     Route::group(['middleware' => ['can:dokter-marketing-manager_marketing']], function () {
         Route::get('/jadwal-kunjungan', 'JadwalKunjunganController@index')->name('jadwal-kunjungan.index');
         Route::get('/jadwal-kunjungan/{jadwal_kunjungan}', 'JadwalKunjunganController@show')->name('jadwal-kunjungan.show');

@@ -73,6 +73,14 @@ class JadwalKunjunganController extends Controller
      */
     public function show(JadwalKunjungan $jadwal_kunjungan)
     {
+        if ($jadwal_kunjungan->status == 1) {
+            if (auth()->user()->peran->nama == "Marketing") {
+                $jadwal_kunjungan->update(['dilihat_marketing' => 1]);
+            }
+            if (auth()->user()->peran->nama == "Manager Marketing") {
+                $jadwal_kunjungan->update(['dilihat_manager_marketing' => 1]);
+            }
+        }
         return view('jadwal-kunjungan.show',compact('jadwal_kunjungan'));
     }
 
@@ -84,6 +92,9 @@ class JadwalKunjunganController extends Controller
      */
     public function edit(JadwalKunjungan $jadwal_kunjungan)
     {
+        if ($jadwal_kunjungan->status == 1) {
+            return redirect()->route('jadwal-kunjungan.show', $jadwal_kunjungan);
+        }
         $dokter = Dokter::all();
         return view('jadwal-kunjungan.edit',compact('jadwal_kunjungan','dokter'));
     }
@@ -105,7 +116,22 @@ class JadwalKunjunganController extends Controller
             'dokter_id.required'    => 'dokter wajib diisi',
         ]);
 
-        $jadwal_kunjungan->update($data);
+        if (auth()->user()->peran->nama == 'Dokter') {
+            if ($request->status == 1 || $request->status == 2) {
+                $data['dilihat_dokter'] = 1;
+                $data['dilihat_marketing'] = 0;
+                $data['dilihat_manager_marketing'] = 0;
+            }
+        } elseif (auth()->user()->peran->nama == 'Marketing'){
+            $data['dilihat_dokter'] = 0;
+            $data['dilihat_manager_marketing'] = 0;
+            $data['status'] = 0;
+        }
+
+        if (strtotime($jadwal_kunjungan->jadwal) > strtotime(now())) {
+            $jadwal_kunjungan->update($data);
+        }
+
         return redirect()->route('jadwal-kunjungan.show',$jadwal_kunjungan)->with('success', 'Jadwal Kunjungan berhasil diperbarui');
     }
 
@@ -117,7 +143,10 @@ class JadwalKunjunganController extends Controller
      */
     public function destroy(JadwalKunjungan $jadwal_kunjungan)
     {
-        $jadwal_kunjungan->delete();
+        if ($jadwal_kunjungan->status != 1) {
+            $jadwal_kunjungan->delete();
+        }
+
         return redirect()->route('jadwal-kunjungan.index')->with('success', 'Jadwal Kunjungan berhasil dihapus');
     }
 }

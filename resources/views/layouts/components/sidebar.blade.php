@@ -100,7 +100,7 @@
                 <li>
                     <a href="{{ route('jadwal-kunjungan.create') }}" class="{{ Request::segment(1) == 'tambah-jadwal-kunjungan' ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-date"></i>
-                        Tambah Jadwal Kunjungan Marketing
+                        Tambah Jadwal Kunjungan
                     </a>
                 </li>
             @endcan
@@ -110,6 +110,19 @@
                     <a href="{{ route('jadwal-kunjungan.index')}}" class="{{ Request::segment(1) == 'jadwal-kunjungan-saya' ? 'mm-active' : '' }}">
                         <i class="metismenu-icon pe-7s-date"></i>
                         Jadwal Kunjungan Marketing
+                    </a>
+                </li>
+                <li class="app-sidebar__heading">Kuisioner</li>
+                <li>
+                    <a href="{{ route('kuisioner.index')}}" class="{{ Request::segment(1) == 'kuisioner' ? 'mm-active' : '' }}">
+                        <i class="metismenu-icon fas fa-calendar-check"></i>
+                        Kuisioner
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('kuisioner.edit')}}" class="{{ Request::segment(1) == 'pengaturan-kuisioner' ? 'mm-active' : '' }}">
+                        <i class="metismenu-icon pe-7s-settings"></i>
+                        Pengaturan Kuisioner
                     </a>
                 </li>
             @endcan

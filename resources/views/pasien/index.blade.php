@@ -45,7 +45,7 @@
                         <tr>
                             <td>
                                 <a href="{{ route('pasien.edit', $item) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
-                                <a href="#hapus" class="btn btn-sm btn-danger hapus" data-nama="{{ $item->nama }}" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash hapus-data"></i></a>
+                                <i class="fas fa-trash btn btn-sm btn-danger hapus" data-nama="{{ $item->nama }}" data-toggle="tooltip" title="Hapus" style="padding: 7.3px 9.5px 7.3px 9.5px"></i>
                                 <form action="{{ route("pasien.destroy", $item) }}" method="post">
                                     @csrf @method('delete')
                                 </form>
@@ -72,13 +72,6 @@
             event.preventDefault();
             if (confirm('Apakah anda yakin ingin menghapus pasien ' + event.target.dataset.nama + ' ini ?')) {
                 event.target.nextSibling.nextElementSibling.submit();
-            }
-        }
-
-        if (event.target.classList.contains('hapus-data')) {
-            event.preventDefault();
-            if (confirm('Apakah anda yakin ingin menghapus pasien ' + event.target.parentElement.dataset.nama + ' ini ?')) {
-                event.target.parentElement.nextSibling.nextElementSibling.submit();
             }
         }
     });

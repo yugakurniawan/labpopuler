@@ -57,6 +57,18 @@ class AppServiceProvider extends ServiceProvider
             return $user->peran->nama == 'Manager Marketing';
         });
 
+        Gate::define('dokter-manager_marketing', function($user){
+            if ($user->peran->nama == 'Dokter' || $user->peran->nama == 'Manager Marketing') {
+                return true;
+            }
+        });
+
+        Gate::define('marketing-manager_marketing', function($user){
+            if ($user->peran->nama == 'Marketing' || $user->peran->nama == 'Manager Marketing') {
+                return true;
+            }
+        });
+
         Gate::define('dokter-marketing-manager_marketing', function($user){
             if ($user->peran->nama == 'Marketing' || $user->peran->nama == 'Dokter' || $user->peran->nama == 'Manager Marketing') {
                 return true;

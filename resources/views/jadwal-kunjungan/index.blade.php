@@ -51,7 +51,11 @@
                         <tr>
                             <td>
                                 @can('marketing')
-                                    <a href="{{ route('jadwal-kunjungan.edit', $item) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
+                                    @if ($item->status == 1)
+                                        <a href="{{ route('jadwal-kunjungan.show', $item) }}" class="btn btn-sm btn-info" data-toggle="tooltip" title="Detail"><i class="fas fa-eye"></i></a>
+                                    @else
+                                        <a href="{{ route('jadwal-kunjungan.edit', $item) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
+                                    @endif
                                 @endcan
                                 @can('dokter')
                                     <a href="{{ route('jadwal-kunjungan.show', $item) }}" class="btn btn-sm btn-success" data-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i></a>
@@ -60,10 +64,12 @@
                                     <a href="{{ route('jadwal-kunjungan.show', $item) }}" class="btn btn-sm btn-info" data-toggle="tooltip" title="Detail"><i class="fas fa-eye"></i></a>
                                 @endcan
                                 @can('dokter-marketing')
-                                    <a href="#hapus" class="btn btn-sm btn-danger hapus" data-nama="{{ date('d/m/Y H:i:s',strtotime($item->jadwal)) }}" data-toggle="tooltip" title="Hapus"><i class="fas fa-trash hapus-data"></i></a>
-                                    <form action="{{ route("jadwal-kunjungan.destroy", $item) }}" method="post">
-                                        @csrf @method('delete')
-                                    </form>
+                                    @if ($item->status != 1)
+                                        <i data-nama="{{ date('d F Y - H:i',strtotime($item->jadwal)) }}" data-toggle="tooltip" title="Hapus" class="fas fa-trash btn btn-sm btn-danger hapus" style="padding: 7.3px 9.5px 7.3px 9.5px"></i>
+                                        <form action="{{ route("jadwal-kunjungan.destroy", $item) }}" method="post">
+                                            @csrf @method('delete')
+                                        </form>
+                                    @endif
                                 @endcan
                             </td>
                             @can('marketing')
@@ -75,7 +81,7 @@
                                 <td>{{ $item->user->nama }}</td>
                                 <td>{{ $item->dokter->nama }} - {{ $item->dokter->kode }}</td>
                             @endcan
-                            <td>{{ date('d/m/Y H:i:s',strtotime($item->jadwal)) }}</td>
+                            <td>{{ date('d F Y - H:i',strtotime($item->jadwal)) }}</td>
                             <td>
                                 @php
                                     switch ($item->status) {
@@ -107,16 +113,8 @@
 <script>
     document.addEventListener('click', function (event) {
         if (event.target.classList.contains('hapus')) {
-            event.preventDefault();
             if (confirm('Apakah anda yakin ingin menghapus jadwal kunjungan ' + event.target.dataset.nama + ' ini ?')) {
                 event.target.nextSibling.nextElementSibling.submit();
-            }
-        }
-
-        if (event.target.classList.contains('hapus-data')) {
-            event.preventDefault();
-            if (confirm('Apakah anda yakin ingin menghapus jadwal kunjungan ' + event.target.parentElement.dataset.nama + ' ini ?')) {
-                event.target.parentElement.nextSibling.nextElementSibling.submit();
             }
         }
     });
