@@ -38,7 +38,7 @@ class KuisionerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'pertanyaan' => ['required']
+            'pertanyaan.*' => ['required']
         ]);
 
         foreach (Kuisioner::all() as $kuisioner) {

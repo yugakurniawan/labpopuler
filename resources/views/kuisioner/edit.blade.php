@@ -24,8 +24,7 @@
                         <div class="row">
                             <div class="col-sm-8">
                                 <div class="form-group">
-                                    <textarea title="Pertanyaan" type="text" name="pertanyaan[]" class="form-control @error('pertanyaan') is-invalid @enderror" placeholder="Pertanyaan ...">{{ old('pertanyaan', $item->pertanyaan) }}</textarea>
-                                    @error('pertanyaan') <span class="invalid-feedback">{{ $message }}</span> @enderror
+                                    <textarea title="Pertanyaan" type="text" name="pertanyaan[]" class="form-control placeholder="Pertanyaan ...">{{ old('pertanyaan', $item->pertanyaan) }}</textarea>
                                 </div>
                                 <div id="opsi">
                                     <input type="hidden" name="banyak_opsi[]" value="{{ count($item->pilih_jawaban_kuisioner) }}">
@@ -68,14 +67,13 @@
                         <div class="row">
                             <div class="col-sm-8">
                                 <div class="form-group">
-                                    <textarea type="text" name="pertanyaan[]" class="form-control @error('pertanyaan') is-invalid @enderror" placeholder="Pertanyaan ...">{{ old('pertanyaan') }}</textarea>
-                                    @error('pertanyaan') <span class="invalid-feedback">{{ $message }}</span> @enderror
+                                    <textarea type="text" name="pertanyaan[]" class="form-control" placeholder="Pertanyaan ..."></textarea>
                                 </div>
                                 <div id="opsi"><input type="hidden" name="banyak_opsi[]" value="0"></div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <select name="jenis_pertanyaan_id[]" class="form-control @error('jenis_pertanyaan_id') is-invalid @enderror">
+                                    <select name="jenis_pertanyaan_id[]" class="form-control">
                                         @foreach ($jenis_pertanyaan as $item)
                                             <option value="{{ $item->id }}" {{ old('jenis_pertanyaan_id') == $item->id ? 'selected' : '' }}>{{ $item->jenis }}</option>
                                         @endforeach
