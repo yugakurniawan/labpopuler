@@ -99,7 +99,7 @@
                             </td>
                         </tr>
                     @empty
-                        <tr><td align="center" colspan="4">Data tidak tersedia</td></tr>
+                        <tr><td align="center" colspan="{{ auth()->user()->peran->nama == "Manager Marketing" ? '5' : '4' }}">Data tidak tersedia</td></tr>
                     @endforelse
                 </tbody>
             </table>
