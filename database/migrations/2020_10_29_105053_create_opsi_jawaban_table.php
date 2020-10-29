@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDetailHasilKuisionerTable extends Migration
+class CreateOpsiJawabanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateDetailHasilKuisionerTable extends Migration
      */
     public function up()
     {
-        Schema::create('detail_hasil_kuisioner', function (Blueprint $table) {
+        Schema::create('opsi_jawaban', function (Blueprint $table) {
             $table->id();
             $table->foreignId('hasil_kuisioner_id')->constrained('hasil_kuisioner')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('jenis_pertanyaan_id')->constrained('jenis_pertanyaan')->onUpdate('cascade')->onDelete('cascade');
-            $table->text('pertanyaan');
-            $table->text('jawaban');
+            $table->text('opsi');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateDetailHasilKuisionerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detail_hasil_kuisioner');
+        Schema::dropIfExists('opsi_jawaban');
     }
 }

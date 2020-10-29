@@ -19,6 +19,9 @@ class CreateJadwalKunjunganTable extends Migration
             $table->string('dokter_id',4)->default('');
             $table->timestamp('jadwal');
             $table->boolean('status')->default(0);
+            $table->boolean('dilihat_marketing')->default(0);
+            $table->boolean('dilihat_dokter')->default(0);
+            $table->boolean('dilihat_manager_marketing')->default(0);
             $table->timestamps();
         });
     }

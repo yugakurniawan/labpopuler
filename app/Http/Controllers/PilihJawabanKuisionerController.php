@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\DetailHasilKuisioner;
+use App\PilihJawabanKuisioner;
 use Illuminate\Http\Request;
 
-class DetailHasilKuisionerController extends Controller
+class PilihJawabanKuisionerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class DetailHasilKuisionerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\DetailHasilKuisioner  $detailHasilKuisioner
+     * @param  \App\PilihJawabanKuisioner  $pilihJawabanKuisioner
      * @return \Illuminate\Http\Response
      */
-    public function show(DetailHasilKuisioner $detailHasilKuisioner)
+    public function show(PilihJawabanKuisioner $pilihJawabanKuisioner)
     {
         //
     }
@@ -52,10 +52,10 @@ class DetailHasilKuisionerController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\DetailHasilKuisioner  $detailHasilKuisioner
+     * @param  \App\PilihJawabanKuisioner  $pilihJawabanKuisioner
      * @return \Illuminate\Http\Response
      */
-    public function edit(DetailHasilKuisioner $detailHasilKuisioner)
+    public function edit(PilihJawabanKuisioner $pilihJawabanKuisioner)
     {
         //
     }
@@ -64,10 +64,10 @@ class DetailHasilKuisionerController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\DetailHasilKuisioner  $detailHasilKuisioner
+     * @param  \App\PilihJawabanKuisioner  $pilihJawabanKuisioner
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DetailHasilKuisioner $detailHasilKuisioner)
+    public function update(Request $request, PilihJawabanKuisioner $pilihJawabanKuisioner)
     {
         //
     }
@@ -75,10 +75,10 @@ class DetailHasilKuisionerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\DetailHasilKuisioner  $detailHasilKuisioner
+     * @param  \App\PilihJawabanKuisioner  $pilihJawabanKuisioner
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DetailHasilKuisioner $detailHasilKuisioner)
+    public function destroy(PilihJawabanKuisioner $pilihJawabanKuisioner)
     {
         //
     }

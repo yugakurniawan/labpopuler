@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\JenisPertanyaan;
 use App\Kuisioner;
+use App\PilihJawabanKuisioner;
 use Illuminate\Http\Request;
 
 class KuisionerController extends Controller
@@ -40,13 +41,28 @@ class KuisionerController extends Controller
             'pertanyaan' => ['required']
         ]);
 
-        Kuisioner::truncate();
+        foreach (Kuisioner::all() as $kuisioner) {
+            $kuisioner->delete();
+        }
+
+        $opsi = 0;
 
         foreach ($request->pertanyaan as $key => $item) {
-            Kuisioner::create([
+            $kuisioner = Kuisioner::create([
                 'jenis_pertanyaan_id'   => $request->jenis_pertanyaan_id[$key],
                 'pertanyaan'            => $item
             ]);
+
+            foreach ($request->opsi as $no => $value) {
+                if ($no >= $opsi && $no < $request->banyak_opsi[$key] + $opsi) {
+                    PilihJawabanKuisioner::create([
+                        'kuisioner_id'  => $kuisioner->id,
+                        'opsi'          => $value
+                    ]);
+                }
+            }
+
+            $opsi += $request->banyak_opsi[$key];
         }
 
         return redirect()->back()->with('success', 'Pengaturan Kuisioner berhasil diperbarui');
