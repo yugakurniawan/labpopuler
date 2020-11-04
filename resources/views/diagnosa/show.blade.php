@@ -25,6 +25,8 @@
         <div class="text-center">
             <p>
                 <b style="text-decoration: underline;">HASIL PEMERIKSAAN</b>
+                <br>
+                Tanggal {{ date('d F Y', strtotime($diagnosa->pasienDokter->tgl_tran)) }}
             </p>
         </div>
         <div class="row">
