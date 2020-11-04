@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\PasienDokter;
 use App\Diagnosa;
+use App\PasTest;
 use Illuminate\Http\Request;
 
 class DiagnosaController extends Controller
@@ -17,17 +18,17 @@ class DiagnosaController extends Controller
     public function show($id)
     {
         $diagnosa = Diagnosa::find($id);
+        $pastest = PasTest::where('nolab',$id)->get()->groupBy('kodetest');
         if ($diagnosa == null) {
             $diagnosa = (object)[
                 'nolab' => $id,
                 'diagnosa' => null,
-                'pasienDokter' => (object) [
-                    'noreg' => PasienDokter::where('nolab',$id)->first()->noreg
-                ],
+                'pasienDokter' => PasienDokter::where('nolab',$id)->first(),
                 'tambah' => true
             ];
         }
-        return view('diagnosa.show', compact('diagnosa'));
+
+        return view('diagnosa.show', compact('diagnosa','pastest'));
     }
 
     /**

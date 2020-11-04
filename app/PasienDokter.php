@@ -23,8 +23,8 @@ class PasienDokter extends Model
         return $this->belongsTo('App\Dokter', 'kodedokter');
     }
 
-    public function pasienSaran()
+    public function pas_test()
     {
-        return $this->belongsTo('App\PasienSaran', 'nolab');
+        return $this->belongsTo('App\PasTest','nolab');
     }
 }
