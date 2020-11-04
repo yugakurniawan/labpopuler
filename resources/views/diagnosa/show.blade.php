@@ -58,11 +58,6 @@
                             <td width="10px" style="vertical-align: top">:</td>
                             <td>{{ $diagnosa->pasienDokter->pasien->tlp ? $diagnosa->pasienDokter->pasien->tlp : '-'}} / {{ $diagnosa->pasienDokter->pasien->hp ? $diagnosa->pasienDokter->pasien->hp : '-'}}</td>
                         </tr>
-                        <tr>
-                            <td width="150px" style="vertical-align: top">Nomor Registrasi</td>
-                            <td width="10px" style="vertical-align: top">:</td>
-                            <td>{{ $diagnosa->pasienDokter->noreg }}</td>
-                        </tr>
                     </table>
                 </div>
             </div>
