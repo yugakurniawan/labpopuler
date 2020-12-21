@@ -92,7 +92,8 @@ class KuisionerController extends Controller
      */
     public function show(User $user, $bulan)
     {
-        return view('kuisioner.show', compact('user','bulan'));
+        $kuisioner = Kuisioner::all();
+        return view('kuisioner.show', compact('user','bulan','kuisioner'));
     }
 
     /**
