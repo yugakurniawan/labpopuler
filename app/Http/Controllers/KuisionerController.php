@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Dokter;
 use App\JenisPertanyaan;
 use App\Kuisioner;
 use App\PilihJawabanKuisioner;
+use App\User;
 use Illuminate\Http\Request;
 
 class KuisionerController extends Controller
@@ -14,9 +16,23 @@ class KuisionerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if (!$request->bulan) {
+            return redirect('kuisioner?bulan='.date('Y-m'));
+        }
+
+        $dokter = Dokter::paginate(15);
+        if ($request->cari) {
+            $dokter = Dokter::where('nama','like',"%$request->cari%")
+                            ->orWhere('hp','like',"%$request->cari%")
+                            ->orWhere('telp','like',"%$request->cari%")
+                            ->orWhere('alamat','like',"%$request->cari%")
+                            ->paginate(15);
+        }
+
+        $dokter->appends($request->all());
+        return view('kuisioner.index', compact('dokter'));
     }
 
     /**
@@ -74,9 +90,9 @@ class KuisionerController extends Controller
      * @param  \App\Kuisioner  $kuisioner
      * @return \Illuminate\Http\Response
      */
-    public function show(Kuisioner $kuisioner)
+    public function show(User $user, $bulan)
     {
-        //
+        return view('kuisioner.show', compact('user','bulan'));
     }
 
     /**
