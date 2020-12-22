@@ -70,12 +70,14 @@ class KuisionerController extends Controller
                 'pertanyaan'            => $item
             ]);
 
-            foreach ($request->opsi as $no => $value) {
-                if ($no >= $opsi && $no < $request->banyak_opsi[$key] + $opsi) {
-                    PilihJawabanKuisioner::create([
-                        'kuisioner_id'  => $kuisioner->id,
-                        'opsi'          => $value
-                    ]);
+            if ($request->opsi) {
+                foreach ($request->opsi as $no => $value) {
+                    if ($no >= $opsi && $no < $request->banyak_opsi[$key] + $opsi) {
+                        PilihJawabanKuisioner::create([
+                            'kuisioner_id'  => $kuisioner->id,
+                            'opsi'          => $value
+                        ]);
+                    }
                 }
             }
 
