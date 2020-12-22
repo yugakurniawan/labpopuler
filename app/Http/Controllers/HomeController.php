@@ -13,6 +13,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if ($this->cek_kuisioner()) {
+            return redirect()->route('kuisioner.create');
+        }
+
         return view('home');
     }
 }

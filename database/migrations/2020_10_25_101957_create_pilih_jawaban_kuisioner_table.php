@@ -16,7 +16,7 @@ class CreatePilihJawabanKuisionerTable extends Migration
         Schema::create('pilih_jawaban_kuisioner', function (Blueprint $table) {
             $table->id();
             $table->foreignId('kuisioner_id')->constrained('kuisioner')->onUpdate('cascade')->onDelete('cascade');
-            $table->text('opsi');
+            $table->text('opsi')->nullable();
             $table->timestamps();
         });
     }

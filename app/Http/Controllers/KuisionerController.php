@@ -42,7 +42,8 @@ class KuisionerController extends Controller
      */
     public function create()
     {
-        //
+        $kuisioner = Kuisioner::all();
+        return view('kuisioner.create', compact('kuisioner'));
     }
 
     /**
@@ -54,7 +55,7 @@ class KuisionerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'pertanyaan.*' => ['required']
+            'pertanyaan.*' => ['required'],
         ]);
 
         foreach (Kuisioner::all() as $kuisioner) {
@@ -92,8 +93,7 @@ class KuisionerController extends Controller
      */
     public function show(User $user, $bulan)
     {
-        $kuisioner = Kuisioner::all();
-        return view('kuisioner.show', compact('user','bulan','kuisioner'));
+        return view('kuisioner.show', compact('user','bulan'));
     }
 
     /**
@@ -107,28 +107,5 @@ class KuisionerController extends Controller
         $kuisioner = Kuisioner::all();
         $jenis_pertanyaan = JenisPertanyaan::all();
         return view('kuisioner.edit', compact('kuisioner','jenis_pertanyaan'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Kuisioner  $kuisioner
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Kuisioner $kuisioner)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Kuisioner  $kuisioner
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Kuisioner $kuisioner)
-    {
-        //
     }
 }

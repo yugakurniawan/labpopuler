@@ -16,7 +16,7 @@ class CreateOpsiJawabanTable extends Migration
         Schema::create('opsi_jawaban', function (Blueprint $table) {
             $table->id();
             $table->foreignId('hasil_kuisioner_id')->constrained('hasil_kuisioner')->onUpdate('cascade')->onDelete('cascade');
-            $table->text('opsi');
+            $table->text('opsi')->nullable();
             $table->timestamps();
         });
     }

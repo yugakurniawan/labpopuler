@@ -19,28 +19,42 @@
         <form autocomplete="off" action="{{ route('kuisioner.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             @forelse ($kuisioner as $item)
-                <div class="card shadow mb-3">
+                <div class="card shadow mb-2">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-8">
                                 <div class="form-group">
-                                    <textarea title="Pertanyaan" type="text" name="pertanyaan[]" class="form-control placeholder="Pertanyaan ...">{{ old('pertanyaan', $item->pertanyaan) }}</textarea>
+                                    <textarea title="Pertanyaan" type="text" name="pertanyaan[]" class="form-control" placeholder="Pertanyaan ...">{{ old('pertanyaan', $item->pertanyaan) }}</textarea>
                                 </div>
                                 <div id="opsi">
                                     <input type="hidden" name="banyak_opsi[]" value="{{ count($item->pilih_jawaban_kuisioner) }}">
-                                    @foreach ($item->pilih_jawaban_kuisioner as $pilihan)
+                                    @if ($item->jenis_pertanyaan->jenis == 'Skala Linier')
                                         <div class="form-group">
-                                            <div class="input-group input-group-alternative mb-3">
-                                                <input type="text" class="form-control" name="opsi[]" placeholder="Opsi ..." value="{{ $pilihan->opsi }}">
-                                                <div class="input-group-append">
-                                                    <button type="button" class="btn btn-outline-success atas-opsi" title="Pindah Ke Atas"><i class="fas fa-arrow-up"></i></button>
-                                                    <button type="button" class="btn btn-outline-success bawah-opsi" title="Pindah Ke Bawah"><i class="fas fa-arrow-down"></i></button>
-                                                    <button type="button" class="btn btn-outline-primary tambah-opsi" title="Tambah"><i class="fas fa-plus"></i></button>
-                                                    <button type="button" class="btn btn-outline-danger hapus-opsi" title="Hapus"><i class="fas fa-trash"></i></button>
+                                            <input type="number" min="0" max="1" class="form-control-sm" name="opsi[]" placeholder="Opsi ..." value="{{ $item->pilih_jawaban_kuisioner[0]->opsi }}">
+                                            <label>Sampai</label>
+                                            <input type="number" min="2" max="10" class="form-control-sm" name="opsi[]" placeholder="Opsi ..." value="{{ $item->pilih_jawaban_kuisioner[1]->opsi }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="opsi[]" placeholder="Label (opsional)" value="{{ $item->pilih_jawaban_kuisioner[2]->opsi }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="opsi[]" placeholder="Label (opsional)" value="{{ $item->pilih_jawaban_kuisioner[3]->opsi }}">
+                                        </div>
+                                    @else
+                                        @foreach ($item->pilih_jawaban_kuisioner as $pilihan)
+                                            <div class="form-group">
+                                                <div class="input-group input-group-alternative mb-3">
+                                                    <input type="text" class="form-control" name="opsi[]" placeholder="Opsi ..." value="{{ $pilihan->opsi }}">
+                                                    <div class="input-group-append">
+                                                        <button type="button" class="btn btn-outline-success atas-opsi" title="Pindah Ke Atas"><i class="fas fa-arrow-up"></i></button>
+                                                        <button type="button" class="btn btn-outline-success bawah-opsi" title="Pindah Ke Bawah"><i class="fas fa-arrow-down"></i></button>
+                                                        <button type="button" class="btn btn-outline-primary tambah-opsi" title="Tambah"><i class="fas fa-plus"></i></button>
+                                                        <button type="button" class="btn btn-outline-danger hapus-opsi" title="Hapus"><i class="fas fa-trash"></i></button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    @endforeach
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -127,6 +141,21 @@
                                         </div>
                                     </div>`;
                 }
+            } else if (event.target.value == 6) {
+                card.children[1].innerHTML = `
+                                    <input type="hidden" name="banyak_opsi[]" value="4">
+                                    <div class="form-group">
+                                        <input type="number" min="0" max="1" class="form-control-sm" name="opsi[]" placeholder="Opsi ..." value="1">
+                                        <label>Sampai</label>
+                                        <input type="number" min="2" max="10" class="form-control-sm" name="opsi[]" placeholder="Opsi ..." value="5">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="opsi[]" placeholder="Label (opsional)">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="opsi[]" placeholder="Label (opsional)">
+                                    </div>
+                                    `;
             } else {
                 card.children[1].innerHTML = `<input type="hidden" name="banyak_opsi[]" value="0">`;
             }

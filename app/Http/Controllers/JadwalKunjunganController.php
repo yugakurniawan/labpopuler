@@ -17,6 +17,10 @@ class JadwalKunjunganController extends Controller
     {
         switch (auth()->user()->peran->nama) {
             case 'Dokter':
+                if ($this->cek_kuisioner()) {
+                    return redirect()->route('kuisioner.create');
+                }
+
                 $jadwal_kunjungan = JadwalKunjungan::where('dokter_id', auth()->user()->dokter->kode)->latest()->paginate(10);
                 break;
 
@@ -73,6 +77,9 @@ class JadwalKunjunganController extends Controller
      */
     public function show(JadwalKunjungan $jadwal_kunjungan)
     {
+        if ($this->cek_kuisioner()) {
+            return redirect()->route('kuisioner.create');
+        }
         if ($jadwal_kunjungan->status == 1) {
             if (auth()->user()->peran->nama == "Marketing") {
                 $jadwal_kunjungan->update(['dilihat_marketing' => 1]);
@@ -108,6 +115,10 @@ class JadwalKunjunganController extends Controller
      */
     public function update(Request $request, JadwalKunjungan $jadwal_kunjungan)
     {
+        if ($this->cek_kuisioner()) {
+            return redirect()->route('kuisioner.create');
+        }
+
         $data = $request->validate([
             'dokter_id' => ['required'],
             'jadwal'    => ['required','date'],
@@ -143,6 +154,10 @@ class JadwalKunjunganController extends Controller
      */
     public function destroy(JadwalKunjungan $jadwal_kunjungan)
     {
+        if ($this->cek_kuisioner()) {
+            return redirect()->route('kuisioner.create');
+        }
+
         if ($jadwal_kunjungan->status != 1) {
             $jadwal_kunjungan->delete();
         }

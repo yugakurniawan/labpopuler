@@ -39,9 +39,14 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::resource('pasien', 'PasienController')->except('create','show');
     });
 
-    Route::group(['middleware' => ['can:dokter']], function () {
+    Route::group(['middleware' => ['can:dokter','kuisioner']], function () {
         Route::get('/pasien-saya', 'PasienController@dokter')->name('pasien.dokter');
         Route::resource('diagnosa', 'DiagnosaController')->except('index','create','store','edit');
+    });
+
+    Route::group(['middleware' => ['can:dokter','sudah_kuis']], function () {
+        Route::get('/kuisioner/create', 'KuisionerController@create')->name('kuisioner.create');
+        Route::post('/hasil-kuisioner', 'HasilKuisionerController@store')->name('hasil-kuisioner.store');
     });
 
     Route::group(['middleware' => ['can:dokter-lab']], function () {
@@ -58,6 +63,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     });
 
     Route::group(['middleware' => ['can:manager_marketing']], function () {
+        Route::get('/kuisioner/download/{hasil_kuisioner}', 'KuisionerController@download')->name('kuisioner.download');
         Route::get('/kuisioner', 'KuisionerController@index')->name('kuisioner.index');
         Route::get('/kuisioner/{user}/{bulan}', 'KuisionerController@show')->name('kuisioner.show');
         Route::get('/pengaturan-kuisioner', 'KuisionerController@edit')->name('kuisioner.edit');

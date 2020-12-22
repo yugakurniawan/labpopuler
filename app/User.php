@@ -46,4 +46,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Dokter');
     }
+
+    public function hasil_kuisioner()
+    {
+        return $this->hasMany('App\HasilKuisioner');
+    }
 }

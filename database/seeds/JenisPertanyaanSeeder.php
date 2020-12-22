@@ -17,7 +17,6 @@ class JenisPertanyaanSeeder extends Seeder
         JenisPertanyaan::create(['jenis' => 'Pilihan Ganda']);
         JenisPertanyaan::create(['jenis' => 'Kotak Centang']);
         JenisPertanyaan::create(['jenis' => 'Dropdown']);
-        JenisPertanyaan::create(['jenis' => 'Upload File']);
         JenisPertanyaan::create(['jenis' => 'Skala Linier']);
         JenisPertanyaan::create(['jenis' => 'Tanggal']);
         JenisPertanyaan::create(['jenis' => 'Waktu']);
