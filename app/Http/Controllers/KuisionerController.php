@@ -8,6 +8,7 @@ use App\Kuisioner;
 use App\PilihJawabanKuisioner;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class KuisionerController extends Controller
 {
@@ -54,9 +55,18 @@ class KuisionerController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(),[
             'pertanyaan.*' => ['required'],
+        ],[
+            'pertanyaan.*.required' => 'pertanyaan wajib diisi.'
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success'   => false,
+                'data'      => $validator->errors()->all()
+            ]);
+        }
 
         foreach (Kuisioner::all() as $kuisioner) {
             $kuisioner->delete();
@@ -84,7 +94,10 @@ class KuisionerController extends Controller
             $opsi += $request->banyak_opsi[$key];
         }
 
-        return redirect()->back()->with('success', 'Pengaturan Kuisioner berhasil diperbarui');
+        return response()->json([
+            'success'   => true,
+            'message'   => 'Pengaturan Kuisioner berhasil diperbarui'
+        ]);
     }
 
     /**

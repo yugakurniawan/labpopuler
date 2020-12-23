@@ -16,7 +16,7 @@
 @section('content')
 <div class="row justify-content-center">
     <div class="col-10">
-        <form autocomplete="off" action="{{ route('kuisioner.store') }}" method="post" enctype="multipart/form-data">
+        <form id="form" autocomplete="off" action="javascript:;" method="post" enctype="multipart/form-data">
             @csrf
             @forelse ($kuisioner as $item)
                 <div class="card shadow mb-2">
@@ -24,7 +24,7 @@
                         <div class="row">
                             <div class="col-sm-8">
                                 <div class="form-group">
-                                    <textarea title="Pertanyaan" type="text" name="pertanyaan[]" class="form-control" placeholder="Pertanyaan ...">{{ old('pertanyaan', $item->pertanyaan) }}</textarea>
+                                    <textarea title="Pertanyaan" type="text" name="pertanyaan[]" class="form-control" placeholder="Pertanyaan ...">{{ $item->pertanyaan }}</textarea>
                                 </div>
                                 <div id="opsi">
                                     <input type="hidden" name="banyak_opsi[]" value="{{ count($item->pilih_jawaban_kuisioner) }}">
@@ -61,7 +61,7 @@
                                 <div class="form-group">
                                     <select name="jenis_pertanyaan_id[]" class="form-control @error('jenis_pertanyaan_id') is-invalid @enderror">
                                         @foreach ($jenis_pertanyaan as $jenis)
-                                            <option value="{{ $jenis->id }}" {{ old('jenis_pertanyaan_id', $item->jenis_pertanyaan_id) == $jenis->id ? 'selected' : '' }}>{{ $jenis->jenis }}</option>
+                                            <option value="{{ $jenis->id }}" {{ $item->jenis_pertanyaan_id == $jenis->id ? 'selected' : '' }}>{{ $jenis->jenis }}</option>
                                         @endforeach
                                     </select>
                                     <div class="text-right mt-3">
@@ -89,7 +89,7 @@
                                 <div class="form-group">
                                     <select name="jenis_pertanyaan_id[]" class="form-control">
                                         @foreach ($jenis_pertanyaan as $item)
-                                            <option value="{{ $item->id }}" {{ old('jenis_pertanyaan_id') == $item->id ? 'selected' : '' }}>{{ $item->jenis }}</option>
+                                            <option value="{{ $item->id }}">{{ $item->jenis }}</option>
                                         @endforeach
                                     </select>
                                     <div class="text-right mt-3">
@@ -112,6 +112,29 @@
 
 @push('scripts')
 <script>
+    document.querySelector('#form').addEventListener('submit', async function (event) {
+        await fetch("{{ route('kuisioner.store') }}",{
+            method: 'POST',
+            body: new FormData(this),
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.success) {
+                alertSuccess(response.message);
+            } else {
+                let error = "<ul>";
+                response.data.forEach(element => {
+                    error += "<li>" + element + "</li>";
+                });
+                error += "</ul>"
+                alertError(error);
+            }
+        })
+        .catch((response) => {
+            alert(response);
+        });
+    });
+
     document.addEventListener('change', function (event) {
         if (event.target.localName == 'textarea') {
             event.target.innerHTML = event.target.value;
