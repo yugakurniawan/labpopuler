@@ -65,7 +65,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::group(['middleware' => ['can:manager_marketing']], function () {
         Route::get('/kuisioner/download/{hasil_kuisioner}', 'KuisionerController@download')->name('kuisioner.download');
         Route::get('/kuisioner', 'KuisionerController@index')->name('kuisioner.index');
-        Route::get('/kuisioner/{user}/{bulan}', 'KuisionerController@show')->name('kuisioner.show');
+        Route::get('/kuisioner/{user}', 'KuisionerController@show')->name('kuisioner.show');
         Route::get('/pengaturan-kuisioner', 'KuisionerController@edit')->name('kuisioner.edit');
         Route::post('/kuisioner', 'KuisionerController@store')->name('kuisioner.store');
     });

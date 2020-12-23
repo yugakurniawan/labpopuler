@@ -14,7 +14,7 @@
 @endsection
 
 @section('page-title-actions')
-<a href="{{ route('kuisioner.index') }}" type="button" class="btn-shadow mr-3 mb-3 btn btn-dark">
+<a href="{{ route('kuisioner.index') }}?bulan={{ request('bulan') }}" type="button" class="btn-shadow mr-3 mb-3 btn btn-dark">
     <i class="fas fa-arrow-left"></i> Kembali
 </a>
 @endsection
@@ -62,10 +62,12 @@
         <div class="card shadow">
             <div class="card-header font-weight-bold d-flex justify-content-between">
                 <span>Jawaban Kuisioner</span>
-                <span>{{ date('F Y' ,strtotime($bulan)) }}</span>
+                <form id="form-bulan" action="{{ URL::current()}}" method="GET">
+                    <input type="month" name="bulan" id="bulan" class="form-control-sm" value="{{ request('bulan') ? request('bulan') : date('Y-m') }}" style="width: 175px">
+                </form>
             </div>
             @foreach ($user->hasil_kuisioner as $key => $item)
-                @if (date('Y-m' ,strtotime($item->tanggal_mengisi_kuisioner)) == $bulan)
+                @if (date('Y-m' ,strtotime($item->tanggal_mengisi_kuisioner)) == request('bulan'))
                     <div class="card shadow mb-2">
                         <div class="card-body">
                             <div class="form-group">
@@ -98,5 +100,9 @@
 
 @push('scripts')
 <script>
+    const bulan = document.querySelector("#bulan");
+    bulan.addEventListener('change', function (event) {
+        this.parentElement.submit();
+    });
 </script>
 @endpush

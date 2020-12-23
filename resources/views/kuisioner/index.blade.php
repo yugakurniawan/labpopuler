@@ -13,6 +13,12 @@
 </div>
 @endsection
 
+@section('page-title-actions')
+<form id="form-bulan" action="{{ URL::current()}}" method="GET">
+    <input type="month" name="bulan" id="bulan" class="form-control-sm" value="{{ request('bulan') ? request('bulan') : date('Y-m') }}" style="width: 175px">
+</form>
+@endsection
+
 @section('search')
 <div class="search-wrapper {{ request('cari') != '' ? 'active' : '' }}">
     <div class="input-holder">
@@ -55,7 +61,7 @@
                                     $count = 0;
                                     $kuisioner = App\Kuisioner::count();
                                     foreach ($hasil_kuisioner as $item) {
-                                        if (date('Y-m', strtotime($item->tanggal_mengisi_kuisioner)) == date('Y-m')) {
+                                        if (date('Y-m',strtotime($item->tanggal_mengisi_kuisioner)) == date('Y-m',strtotime(request('bulan')))) {
                                             $count++;
                                         }
                                     }
@@ -75,3 +81,12 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    const bulan = document.querySelector("#bulan");
+    bulan.addEventListener('change', function (event) {
+        this.parentElement.submit();
+    });
+</script>
+@endpush

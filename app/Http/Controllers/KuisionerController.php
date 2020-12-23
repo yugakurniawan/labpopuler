@@ -19,6 +19,10 @@ class KuisionerController extends Controller
      */
     public function index(Request $request)
     {
+        $request->validate([
+            'bulan' => ['date_format:Y-m']
+        ]);
+
         if (!$request->bulan) {
             return redirect('kuisioner?bulan='.date('Y-m'));
         }
@@ -106,9 +110,13 @@ class KuisionerController extends Controller
      * @param  \App\Kuisioner  $kuisioner
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user, $bulan)
+    public function show(User $user, Request $request)
     {
-        return view('kuisioner.show', compact('user','bulan'));
+        $request->validate([
+            'bulan' => ['required','date_format:Y-m']
+        ]);
+
+        return view('kuisioner.show', compact('user'));
     }
 
     /**
