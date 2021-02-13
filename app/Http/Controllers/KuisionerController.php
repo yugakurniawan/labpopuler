@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dokter;
+use App\HasilKuisioner;
 use App\JenisPertanyaan;
 use App\Kuisioner;
 use App\PilihJawabanKuisioner;
@@ -96,6 +97,10 @@ class KuisionerController extends Controller
             }
 
             $opsi += $request->banyak_opsi[$key];
+        }
+
+        foreach (HasilKuisioner::whereYear('tanggal_mengisi_kuisioner', date('Y'))->whereMonth('tanggal_mengisi_kuisioner', date('m'))->get() as $item) {
+            $item->delete();
         }
 
         return response()->json([

@@ -59,14 +59,13 @@
                                 @php
                                     $hasil_kuisioner = App\HasilKuisioner::where('user_id', $item->user_id)->get();
                                     $count = 0;
-                                    $kuisioner = App\Kuisioner::count();
                                     foreach ($hasil_kuisioner as $item) {
                                         if (date('Y-m',strtotime($item->tanggal_mengisi_kuisioner)) == date('Y-m',strtotime(request('bulan')))) {
                                             $count++;
                                         }
                                     }
                                 @endphp
-                                @if ($count == $kuisioner)
+                                @if ($count > 1)
                                     <i class="fas fa-check text-success"></i>
                                 @else
                                     -
